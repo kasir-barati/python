@@ -3,6 +3,7 @@
 - We've touched data structure topic already several times ([here](./whetting-your-appetite-and-basic-concepts.md#strings-in-python), [here](./most-common-statements.md#dictionary-in-python), and [here](./whetting-your-appetite-and-basic-concepts.md#numbers-in-python) for example).
 - We've talked about lists [here](./whetting-your-appetite-and-basic-concepts.md#lists-in-python) too.
 - And here we'll go into depth.
+- Usually contains **homogeneous** sequence of elements.
 
 ## Lists Methods
 

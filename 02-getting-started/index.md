@@ -7,7 +7,9 @@
 5. [Questions and fixing some mistakes](./questions-fixing-some-mistakes.md).
 6. [Lambda expressions](./lambda-expressions.md).
 7. [List data structure](./list-data-structure.md).
-
+8. [Tuples, and sets](./tuples-sets.md).
+9. [Dictionaries](./dictionaries.md).
+10. [Looping, conditions, and comparing](./looping-compraing-and-conditions.md).
 
 > [!NOTE]
 >
