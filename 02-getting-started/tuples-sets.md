@@ -79,3 +79,12 @@
   even_numbers = {num for num in unique_numbers if num % 2 == 0}
   print(even_numbers)
   ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/m1rJ2TU45DQ](https://youtu.be/m1rJ2TU45DQ).
+- [https://aparat.com/v/yid0v65](https://aparat.com/v/yid0v65).
+
+## Ref
+
+- [5. Data Structures](https://docs.python.org/3/tutorial/datastructures.html).

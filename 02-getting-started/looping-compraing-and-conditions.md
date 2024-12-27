@@ -153,3 +153,18 @@
   ```py
   [1.0, 2, 4] == [1, 2, 4]
   ```
+
+## <a title="codewars" href="https://www.codewars.com/"><img src="./assets/codewars.png" width="150"></a>
+
+**Practice every day!**
+
+![Tell me and I'll forget, show me and I may remember, involve me and I will understand](./assets/tell-me-and-i-foget.png)
+
+## YouTube/Aparat
+
+- [https://youtu.be/1Kr4_RsNJpk](https://youtu.be/1Kr4_RsNJpk).
+- [https://aparat.com/v/fjau1g8](https://aparat.com/v/fjau1g8).
+
+## Ref
+
+- [5. Data Structures](https://docs.python.org/3/tutorial/datastructures.html).

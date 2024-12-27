@@ -64,3 +64,12 @@
              for number in range(1, 100)}
   print(numbers)
   ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/-QperLIB4b8](https://youtu.be/-QperLIB4b8).
+- [https://aparat.com/v/jhdj52n](https://aparat.com/v/jhdj52n).
+
+## Ref
+
+- [5. Data Structures](https://docs.python.org/3/tutorial/datastructures.html).
