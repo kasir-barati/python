@@ -3,8 +3,8 @@
 - Retrieve key, and value of a dictionary in a loop at the same time:
   ```py
   large_language_models = {
-    "llama": "Can do dialogue generation and language translation.",
-    "gpt-4": "Accepts text, and images as input.",
+      "llama": "Can do dialogue generation and language translation.",
+      "gpt-4": "Accepts text, and images as input.",
   }
   for key, value in large_language_models.items():
       print(key.upper() + ": " + value)
@@ -18,10 +18,10 @@
 - Pair elements of two more more sequences with `zip`:
   ```py
   questions = [
-    'What can I do when getting "We are no longer accepting questions/answers from this account"?',
-    'How do I ask and answer homework questions?']
+      'What can I do when getting "We are no longer accepting questions/answers from this account"?',
+      'How do I ask and answer homework questions?']
   answers = ["https://meta.stackoverflow.com/questions/255583",
-            "https://meta.stackoverflow.com/questions/334822"]
+             "https://meta.stackoverflow.com/questions/334822"]
   for question, answer in zip(questions, answers):
       print(question)
       print("\t", answer)

@@ -9,9 +9,9 @@
 
     ```py
     info = {
-      "name": "Claudius Ptolemy",
-      100: ["Mathematician", "Astrologist", "Geologist"],
-      ("Alexandria", "Egypt", "Roman Empire"): "Alexandria is the second largest city in Egypt and the largest city on the Mediterranean coast."
+        "name": "Claudius Ptolemy",
+        100: ["Mathematician", "Astrologist", "Geologist"],
+        ("Alexandria", "Egypt", "Roman Empire"): "Alexandria is the second largest city in Egypt and the largest city on the Mediterranean coast."
     }
     ```
 
@@ -24,7 +24,7 @@
 - You'll get an **error** if you try to extract a value using a **non-existent** key.
   ```py
   profile = {
-    username: "Genghis_khan"
+      "username": "Genghis_khan"
   }
   print(profile["age"])
   ```
@@ -44,7 +44,7 @@
   ```py
   me = {"test": 123}
   del me["test"]
-  print(me) # {}
+  print(me)  # {}
   ```
 - We can use membership test operator, i.e. `in` too:
   ```py
