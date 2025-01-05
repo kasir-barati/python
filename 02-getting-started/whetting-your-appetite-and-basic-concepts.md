@@ -376,6 +376,8 @@ Example:
 
 - Manipulate text.
 - Type: `str`.
+- `len` built-in function return length of a string: `len(word) # 6`.
+- AKA ["text sequence type"](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str).
 - Enclosed in:
 
   - Single quotes: `'...'`.
@@ -420,68 +422,68 @@ Example:
     """)</code></pre></td>
       </tr>
     </table>
-- Operators:
 
-  - `*`:
-    - Repeats it.
-    - E.g.: `3 * "hi "`
-  - `+`:
-    - Concatenates.
-    - E.g.: `"Mohammad " + 'Jawad'`.
-      - Same as: `"Mohammad " 'Jawad'` (only works with two literals).
-  - Mix them:
-    - E.g.: `("-" * 5) + "I LOVE AI" + ("""-""" * 5)`
-  - `[]`:
+#### String Operators
 
-    - Subscript:
-      - The first character's index is 0.
-      - Negative indices: start counting from the right.
-      - ```python
-        word = 'Python'
-        print(word[0])  # P
-        print(word[-1])  # n
-        ```
-    - Slicing:
-      ```python
-      # [0, 2)
-      # Returns 'Py'
-      word[0:2]
-      # Omitted first index defaults to zero
-      # Returns 'Py'
-      word[:2]
-      # Omitted second index defaults to the size of the string being sliced
-      # Returns 'on'
-      word[4:] # word[-2:]
-      # Returns 'Python'
-      word[:2] + word[2:]
-      # Out of range slicing:
-      # Returns 'on'
-      word[4:42]
-      # Out of range slicing:
-      # Returns ''
-      word[42:]
+- `*`:
+  - Repeats it.
+  - E.g.: `3 * "hi "`
+- `+`:
+  - Concatenates.
+  - E.g.: `"Mohammad " + 'Jawad'`.
+    - Same as: `"Mohammad " 'Jawad'` (only works with two literals).
+- Mix them:
+  - E.g.: `("-" * 5) + "I LOVE AI" + ("""-""" * 5)`
+- `[]`:
+
+  - Subscript:
+    - The first character's index is 0.
+    - Negative indices: start counting from the right.
+    - ```python
+      word = 'Python'
+      print(word[0])  # P
+      print(word[-1])  # n
       ```
+  - <a href="#operatorsSlicingString" id="operatorsSlicingString">#</a> Slicing `msg[start:end:step]`:
+    ```python
+    # [0, 2)
+    # Returns 'Py'
+    word[0:2]
+    # Omitted first index defaults to zero
+    # Returns 'Py'
+    word[:2]
+    # Omitted second index defaults to the size of the string being sliced
+    # Returns 'on'
+    word[4:] # word[-2:]
+    # Returns 'Python'
+    word[:2] + word[2:]
+    # Out of range slicing:
+    # Returns 'on'
+    word[4:42]
+    # Out of range slicing:
+    # Returns ''
+    word[42:]
+    ```
 
-    ![Subscript operator](./assets/subscript-operator.png)
+  ![Subscript operator](./assets/subscript-operator.png)
 
-    > [!CAUTION]
-    >
-    > ```python
-    > >>> word[42]
-    > Traceback (most recent call last):
-    >   File "<stdin>", line 1, in <module>
-    > IndexError: string index out of range
-    > ```
+  > [!CAUTION]
+  >
+  > ```python
+  > >>> word[42]
+  > Traceback (most recent call last):
+  >   File "<stdin>", line 1, in <module>
+  > IndexError: string index out of range
+  > ```
 
-- Immutable indices:
-  ```python
-  word[0] = 'K' # or word[2:] = 'char'
-  Traceback (most recent call last):
-    File "<stdin>", line 1, in <module>
-  TypeError: 'str' object does not support item assignment
-  ```
-- `len` built-in function return length of a string: `len(word) # 6`.
-- AKA ["text sequence type"](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str).
+#### Immutable Indices
+
+```python
+word[0] = 'K' # or word[2:] = 'char'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+```
 
 ### Lists in Python
 

@@ -390,6 +390,10 @@ match coordinates:
 >
 > To learn more read **[PEP 636](https://peps.python.org/pep-0636/)** which is interestingly **written in tutorial format**.
 
+## Extra Resources
+
+- [Understanding Python: Structural Pattern Matching](https://youtu.be/fLG10T9lWS4?si=YqsHcz-f29tSgT7X).
+
 ## YouTube/Aparat
 
 - [https://youtu.be/4Erc0hrn5nc](https://youtu.be/4Erc0hrn5nc).

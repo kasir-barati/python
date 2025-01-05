@@ -12,6 +12,9 @@
    8. [Tuples, and sets](./02-getting-started/tuples-sets.md).
    9. [Dictionaries](./02-getting-started/dictionaries.md).
    10. [Looping, conditions, and comparing](./02-getting-started/looping-compraing-and-conditions.md).
+3. [Modularity](./03-modularity/README.md).
+   1. [Modules in Python](./03-modularity/modules.md).
+   2. [Packages in Python](./03-modularity/packages.md).
 
 # Docs
 
