@@ -92,3 +92,12 @@ Suppose you need to import `sound/effect/echo.py` module inside the `sound/filte
    ```
 
    Can be used in subpackages. But inside a subpackage we can actually use either absolute imports or relative ones.
+
+## YouTube/Aparat
+
+- [YouTube](https://youtu.be/QP1PlbkmaMk).
+- [Aparat](https://aparat.com/v/ywf379c).
+
+## Ref
+
+- [Modules](https://docs.python.org/3/tutorial/modules.html).

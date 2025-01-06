@@ -131,7 +131,7 @@ def square(length: int) -> None:
       <tr>
         <th>Object</th>
         <th>Entire module<br />(global scope)</th>
-        <th>encircled_square function<br />(local scope)</th>
+        <th>square function<br />(local scope)</th>
       </tr>
     </thead>
     <tbody>
@@ -230,9 +230,9 @@ Python Creates new namespaces whenever it is necessary and deletes them when the
 >
 > ```py
 > code = 10
-> def func1():
+> def func1() -> None:
 >     temp = 1
->     def func2():
+>     def func2() -> None:
 >         # Python creates a new, completely independent variable!
 >         temp = 12
 >         # Python creates a new, completely independent variable!
@@ -249,9 +249,9 @@ Python Creates new namespaces whenever it is necessary and deletes them when the
 >
 > ```py
 > code = 10
-> def func1():
+> def func1() -> None:
 >     temp = 1
->     def func2():
+>     def func2() -> None:
 >         nonlocal temp
 >         global code
 >         temp = 12
@@ -269,7 +269,7 @@ Python Creates new namespaces whenever it is necessary and deletes them when the
 > ```py
 > from typing import Tuple
 > code = 10
-> def func1():
+> def func1() -> int:
 >     temp = 1
 >     def func2() -> Tuple[int, int]:
 >         """The first index of tuple is temp and the second is code"""
@@ -323,7 +323,7 @@ import typings
 There is a variation of import that will only pull in a specific object:
 
 ```py
-from typings import List
+from typing import List
 def func() -> List[int]:
     hi()
     return [1, 2, 3]
@@ -365,11 +365,11 @@ PI = 3.14
 
 ```py
 import greet
-# from greet in_japanese
+# from greet import in_japanese
 
 # Katakana of Mohammad
 name = "モハマド"
-# message in_japanese(name)
+# message = in_japanese(name)
 message = greet.in_japanese(name)
 
 print(message)
@@ -381,7 +381,7 @@ print(message)
 ```py
 """A greeting module in different languages"""
 print("<some-other-code>")
-in_japanese(name: str) -> str:
+def in_japanese(name: str) -> str:
     """It greets you in Japanese"""
     return f"こ日は {name}"
 print(globals()["__doc__"])
@@ -532,3 +532,13 @@ turtle.Screen().update()
 > [!NOTE]
 >
 > If you use `turtle.done()` you do not need to call `turtle.Screen().update()` since it will does the updating for you on top of preventing the window from being closed.
+
+## YouTube/Aparat
+
+- [YouTube](https://youtu.be/W4S3_4JNp8I).
+- [Aparat](https://aparat.com/v/jvk28nx).
+
+## Ref
+
+- [5 Tips To Organize Python Code](https://youtu.be/e9yMYdnSlUA?si=PfVpHxhaV2HS5uDV).
+- [Modules](https://docs.python.org/3/tutorial/modules.html).
