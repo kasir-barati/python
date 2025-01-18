@@ -15,6 +15,7 @@
 3. [Modularity](./03-modularity/README.md).
    1. [Modules in Python](./03-modularity/modules.md).
    2. [Packages in Python](./03-modularity/packages.md).
+4. [String formatting](./04-string-formatting/README.md)
 
 # Docs
 
