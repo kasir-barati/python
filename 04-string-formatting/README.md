@@ -68,7 +68,7 @@ print(" "
   ```py
   # The repr() of a string adds string quotes and backslashes:
   hello = 'hello, world\n'
-  hellos = repr(hello
+  hellos = repr(hello)
   ```
 - `str()`: Convert all data types to string.
 
@@ -94,3 +94,12 @@ print('%s bought %d pairs of black socks.' % ('Jin', 2))
 ```
 
 ![String interpolation explanation by image](./assets/string-interpolation.png)
+
+## YouTube/Aparat
+
+- [https://youtu.be/-Dza99ZFppc](https://youtu.be/-Dza99ZFppc).
+- [https://aparat.com/v/xyvc922](https://aparat.com/v/xyvc922).
+
+## Ref
+
+- [7. Input and Output](https://docs.python.org/3/tutorial/inputoutput.html#input-and-output).
