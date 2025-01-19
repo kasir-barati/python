@@ -16,6 +16,11 @@
    1. [Modules in Python](./03-modularity/modules.md).
    2. [Packages in Python](./03-modularity/packages.md).
 4. [String formatting](./04-string-formatting/README.md)
+5. [Errors and Exceptions](./05-errors-and-exceptions/README.md):
+   - [Syntax errors](./05-errors-and-exceptions/syntax-errors.md).
+   - [Errors or exceptions](./05-errors-and-exceptions/errors.md).
+   - [`try ... except ... finally`](./05-errors-and-exceptions/try-except-finally.md)
+6. [Files](./06-files/README.md).
 
 # Docs
 
