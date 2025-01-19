@@ -19,7 +19,7 @@
   Traceback (most recent call last):
     File "/home/kasir/projects/python/calc.py", line 3, in <module>
       result = dividend / divisor
-                ~~~~~~~~~^~~~~~~~~
+               ~~~~~~~~~^~~~~~~~~
   ZeroDivisionError: division by zero
   ```
   Or if you try to enter a bogus value, instead of a valid number try to enter e.g. "abc".
@@ -82,6 +82,11 @@
 
 - Where the exception occurred.
 - Called traceback since you get to see where the error occurred and who was calling that piece of code before it.
+
+# YouTube/Aparat
+
+- [https://youtu.be/GREIYOHGWEI](https://youtu.be/GREIYOHGWEI).
+- [https://aparat.com/v/zqe0pcj](https://aparat.com/v/zqe0pcj).
 
 ## Ref
 

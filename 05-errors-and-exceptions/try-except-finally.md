@@ -1,5 +1,7 @@
 # `try ... except ... finally` Statement
 
+![try except else finally visualization](./assets/try-except-else-finally.png)
+
 - Handle selected exceptions.
 - E.g. ask user for input until a valid integer has been entered:
   ```py
@@ -251,6 +253,11 @@ Testing in software engineering is the process where you automate testing your c
 - **Software quality**: It's much easier to write tests and then think of different cases.
 
 </details>
+
+# YouTube/Aparat
+
+- [https://youtu.be/I_AtIp0gpIo](https://youtu.be/I_AtIp0gpIo).
+- [https://aparat.com/v/lcp10s1](https://aparat.com/v/lcp10s1).
 
 ## Ref
 
