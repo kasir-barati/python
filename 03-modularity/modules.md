@@ -267,11 +267,10 @@ Python Creates new namespaces whenever it is necessary and deletes them when the
 > <td>
 >
 > ```py
-> from typing import Tuple
 > code = 10
 > def func1() -> int:
 >     temp = 1
->     def func2() -> Tuple[int, int]:
+>     def func2() -> tuple[int, int]:
 >         """The first index of tuple is temp and the second is code"""
 >         temp = 12
 >         code = temp * 10
@@ -323,8 +322,7 @@ import typings
 There is a variation of import that will only pull in a specific object:
 
 ```py
-from typing import List
-def func() -> List[int]:
+def func() -> list[int]:
     hi()
     return [1, 2, 3]
 ```

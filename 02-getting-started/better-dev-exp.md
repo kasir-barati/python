@@ -6,19 +6,41 @@ Here we will learn about function annotations, docstrings, and formatting styles
 
 - In Python 3 we can specify the type of our arguments and what our function returns.
 - They're optional metadata info.
-- The main idea was introduced in [PEP 3107](https://peps.python.org/pep-3107/) and [PEP 484](https://peps.python.org/pep-0484/). So be sure to read those PEPs thoroughly since type-safety of your code, and its maintainability depends on it IMO.
+
+> [!NOTE]
+>
+> Though the main idea was introduced in [PEP 3107](https://peps.python.org/pep-3107/) and [PEP 484](https://peps.python.org/pep-0484/) but from version 3.5 onward we have a [typing](https://docs.python.org/3/library/typing.html#module-typing) section in the Python's doc. So be sure to read those PEPs and docs thoroughly since type-safety of your code, and its maintainability depends on it IMO.
 
 ```python
 def place_order(
-        product_id : int,
-        quantity : int,
+        product_id: int,
+        quantity: int,
         /,
-        discount_code : str=None,
+        discount_code: str=None,
         *,
-        shipping_address : str,
-        expedited : bool=False) -> None:
+        shipping_address: str,
+        expedited: bool=False) -> None:
     pass
 ```
+
+> [!TIP]
+>
+> You'll learn about modules [here](../03-modularity/modules.md), but just for now you just need to know that they are like a toolbox with prebuilt tools ready for you to use them. And in that toolbox we have a tool (module) called `typing`.
+>
+> `typing.Tuple` and `typing.List` are Generic types; this means you can specify what type their contents must be e.g. a list of integers:
+>
+> ```py
+> import typing
+> numbers: typing.List[int] = [1, 2]
+> ```
+>
+> But from version 3.5 we do not need to use these generic types exported from `typing` module. But instead we can use the built-in types, i.e.:
+>
+> ```py
+> numbers: list[int] = [3, 4]
+> ```
+>
+> **What is important is to keep in mind that this is the new preferred way of type annotating stuff.**
 
 ## Docstring
 
@@ -34,13 +56,13 @@ def place_order(
 
 ```python
 def place_order(
-        product_id : int,
-        quantity : int,
+        product_id: int,
+        quantity: int,
         /,
-        discount_code : str=None,
+        discount_code: str=None,
         *,
-        shipping_address : str,
-        expedited : bool=False) -> None:
+        shipping_address: str,
+        expedited: bool=False) -> None:
     """
     Places an order for a product.
 

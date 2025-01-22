@@ -55,8 +55,7 @@ Extend the list by appending all the items from the iterable.
       <td>
 <pre lang="python">
 <code>
-from typing import List
-nums: List[int] = []
+nums: list[int] = []
 nums.extend(range(1, 5))
 </code>
 </pre>
@@ -340,11 +339,8 @@ Can implement **FIFO** with lists in Python:
 - A finer approach would be to use `collections.deque` because of its speed when inserting or getting data from both ends.
 
   ```python
-  from typing import List
   from collections import deque
-
-
-  def process_fifo(messages: List[str]) -> None:
+  def process_fifo(messages: list[str]) -> None:
       """Explore the passed dictionary for the target room"""
       # Queue to store all messages
       queue = deque(messages)
@@ -385,9 +381,8 @@ Can implement **FIFO** with lists in Python:
       <td>
 <pre lang="python">
 <code>
-from typing import List
 numbers = [1, 2, 3, 4]
-squares: List[int] = []
+squares: list[int] = []
 for n in numbers:
     squares.append(n ** 2)
 print(squares)
@@ -414,10 +409,9 @@ squares = list(map(lambda n: n ** 2, numbers))
       <td>
 <pre lang="python">
 <code>
-from typing import List
-def get_evens(nums: List[int]) -> List[int]:
+def get_evens(nums: list[int]) -> list[int]:
     """Find all even numbers in the passed list."""
-    result: List[int] = []
+    result: list[int] = []
     for n in nums:
         if n % 2 == 0:
             result.append(n)
@@ -496,13 +490,12 @@ for x in [1, 2, 3]:
       <td>
 <pre lang="python">
 <code>
-from typing import List
 matrix = [
     [1, 2, 3, 4],
     [5, 6, 7, 8],
     [9, 10, 11, 12],
 ]
-transposed: List[List[int]] = []
+transposed: list[list[int]] = []
 for i in range(4):
     transposed.append([row[i] for row in matrix])
 </code>
@@ -510,13 +503,12 @@ for i in range(4):
 Or
 <pre lang="python">
 <code>
-from typing import List
 matrix = [
     [1, 2, 3, 4],
     [5, 6, 7, 8],
     [9, 10, 11, 12],
 ]
-transposed: List[List[int]] = []
+transposed: list[list[int]] = []
 for i in range(4):
     transposed_row = []
     for row in matrix:
