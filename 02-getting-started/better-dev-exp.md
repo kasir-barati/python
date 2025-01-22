@@ -152,15 +152,15 @@ Here we'll go over some of the most useful extensions in VSCode for coding in Py
 
    [You can learn how to do it step by step here](https://stackoverflow.com/a/74370180/8784518).
 
+> [!CAUTION]
+>
+> This extension in my experience does not do a very good job. So be sure to read the PEP 8 just in case it was messing with your code.
+
 </details>
 <details>
 <summary>Pylint</summary>
 
 Nice suggestions to improve your code quality.
-
-> [!CAUTION]
->
-> This extension in my experience does not do a very good job. So be sure to read the PEP 8 just in case it was messing with your code.
 
 </details>
 
@@ -198,3 +198,5 @@ An extension for showing intellisense. E.g. when you type `"a string"` and press
 
 - [https://youtu.be/\_6kees89A-o](https://youtu.be/_6kees89A-o).
 - [https://aparat.com/v/juno9oe](https://aparat.com/v/juno9oe).
+- [https://youtu.be/dbAhyKVeqXs](https://youtu.be/dbAhyKVeqXs).
+- [https://aparat.com/v/ncd5e0q](https://aparat.com/v/ncd5e0q).
