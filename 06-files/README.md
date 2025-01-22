@@ -71,7 +71,7 @@
 - A file with human-readable text inside it.
 - You can open them in a text editor, e.g. Notepad, VSCode, etc.
 - E.g. you can see something like this in an html file:
-  ```html`
+  ```html
   <html>
     <head>
       <title>Python Course</title>
