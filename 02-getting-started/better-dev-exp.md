@@ -111,7 +111,12 @@ def place_order(
 - `self` as the name for the first method argument (will discuss it when we learned classes in Python).
 - Try to use plain English and not fancy characters or some chars that needs a different encoding than utf-8 (we talked about encoding [here](./whetting-your-appetite-and-basic-concepts.md#pythonSourceFilesEncoding)).
 
-### VSCode + PEP 8
+### VSCode Extensions
+
+Here we'll go over some of the most useful extensions in VSCode for coding in Python.
+
+<details>
+<summary>autopep8</summary>
 
 1. Open "Extensions", press `Ctrl+Shift+x` or click on its icon on the left hand side panel:
 
@@ -147,11 +152,47 @@ def place_order(
 
    [You can learn how to do it step by step here](https://stackoverflow.com/a/74370180/8784518).
 
-8. After that you can install "Pylint" too to get nice suggestions to improve your code quality.
+</details>
+<details>
+<summary>Pylint</summary>
+
+Nice suggestions to improve your code quality.
 
 > [!CAUTION]
 >
 > This extension in my experience does not do a very good job. So be sure to read the PEP 8 just in case it was messing with your code.
+
+</details>
+
+<details>
+<summary>Mypy Type Checker</summary>
+
+An extension so that when you have a nicely annotated code like this your VSCode shows you a squiggly red line under it, indicating that something is wrong there:
+
+```py
+var: list[int] = [1, '2', 3]
+```
+
+</details>
+
+<details>
+<summary>Flake8</summary>
+
+An extension for showing errors in your code that are more of a syntactical issue. E.g. here it will draw a squiggly line under `bogus` since it is a valid type.
+
+```py
+def a(aaaaaaaaaaaaaaa: int, bbbbbbbbbbbbbb: bogus):
+    pass
+```
+
+</details>
+
+<details>
+<summary>Pylance</summary>
+
+An extension for showing intellisense. E.g. when you type `"a string"` and press dot it should show a complete list of all methods available in Python.
+
+</details>
 
 ## YouTube/Aparat
 

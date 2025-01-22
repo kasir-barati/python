@@ -82,9 +82,12 @@ There might be others who use things like [PyCharm](https://www.jetbrains.com/py
     ![Choose a theme](./assets/vscode-initial-page-choose-theme.png)
 
 2.  Install ["Python"](https://marketplace.visualstudio.com/items?itemName=ms-python.python) extension for VSCode. This will give you stuff like:
-    - IntelliSense (Through Pylance extension).
-    - Debugging (Through Python Debugger extension).
+
+    - Intellisense.
+    - Debugging.
     - Formatting, linting, code navigation, refactoring, variable explorer, test explorer, and other convenience you might need while coding.
+
+    Learn more about necessary extension in VSCode for coding in Python [here](../02-getting-started/better-dev-exp.md#vscode-extensions).
 
 ## Create a new python project
 
