@@ -322,6 +322,11 @@ with open('message.txt', encoding="utf-8") as f:
 >
 > JSON files must be encoded in UTF-8, thus the reason behind using `encoding="utf-8"` when opening/creating the `user.json` file.
 
+## YouTube/Aparat
+
+- [https://youtu.be/uRkhu7yR4OY](https://youtu.be/uRkhu7yR4OY).
+- [https://aparat.com/v/ikd37s4](https://aparat.com/v/ikd37s4).
+
 ## Ref
 
 - [7.2. Reading and Writing Files](https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files).

@@ -6,6 +6,8 @@
    2. [Conditions, loops and more](./02-getting-started/most-common-statements.md).
    3. [Functions](./02-getting-started/functions.md).
    4. [Better developer experience in writing/using functions](./02-getting-started/better-dev-exp.md).
+      - [Type annotation in Python](./02-getting-started/better-dev-exp.md#function-annotation).
+      - [Useful VSCode extensions for developing in Python](./02-getting-started/better-dev-exp.md#vscode-extensions).
    5. [Questions and fixing some mistakes](./02-getting-started/questions-fixing-some-mistakes.md).
    6. [Lambda expressions](./02-getting-started/lambda-expressions.md).
    7. [List data structure](./02-getting-started/list-data-structure.md).
