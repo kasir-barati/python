@@ -55,30 +55,49 @@ def place_order(
   - etc.
 
 ```python
-def place_order(
-        product_id: int,
-        quantity: int,
-        /,
-        discount_code: str=None,
-        *,
-        shipping_address: str,
-        expedited: bool=False) -> None:
+def expo(num1: int | float, num2: int | float) -> int | float:
     """
-    Places an order for a product.
+    Calculates num1 to the power of num2
 
-    Arguments:
-    - product_id (int): ID of the product (positional-only)
-    - quantity (int): Quantity to order (positional-only)
-    - discount_code (str): Optional promo code (positional-or-keyword)
-    - shipping_address (str): Required keyword-only address
-    - expedited (bool): Optional, keyword-only flag for fast shipping
+    Args:
+      num1: The base number
+      num2: The exponent number
     """
-    pass
+
+    return num1 ** num2
 ```
+
+- Note that now when you are entering numbers it will show a small tooltip window telling yuo what is that argument.
+  ![Docstring tooltip](./assets/docstring-tooltip.png)
+- **DRY principle**: since I am annotating my arguments here (`: int | float`) I intentionally dropped it from docstring. It is just redundant and hard to maintain.
+- Docstring in Python is supper flexible. E.g. you can rewrite this docstring like this too:
+
+  ```py
+  """
+  Calculates num1 to the power of num2
+
+  Arguments:
+    num1: The base number
+    num2: The exponent number
+  """
+  ```
+
+  Or
+
+  ```py
+  """
+  Calculates num1 to the power of num2
+
+  :param num1: The base number
+  :param num2: The exponent number
+  """
+  ```
+
+  So pick one and stick to it. I mean consistency is a good thing to have when coding.
 
 > [!TIP]
 >
-> You can learn how to write good docstring by going through [PEP 0256](https://peps.python.org/pep-0256/), [PEP 0257](https://peps.python.org/pep-0257/) and [PEP 0258](https://peps.python.org/pep-0258/).
+> You can learn how to write good docstring by going through [PEP 256](https://peps.python.org/pep-0256/), [PEP 257](https://peps.python.org/pep-0257/) and [PEP 0258](https://peps.python.org/pep-0258/).
 
 ## Formatting Styles
 

@@ -404,6 +404,15 @@ Example:
   # This is invalid
   r"I am \"
   ```
+- `\t` & `\n` are just syntax sugars to add new lines in a string. I.e. you can achieve same thing in Python by using e.g. `chr(10)` for `\n` and `chr(9)` for `\t`:
+  ```py
+  print("Who are you?" + chr(10) + chr(9) + "I am Yu.")
+  print("Who are you?\n\tI am Yu.")
+  ```
+  And when I say it is more of a convenient it is because this code works perfectly fine in Linux and other Unix base operating systems. But not quite OK in Windows, i.e. because Windows uses two characters for new line: `\r\n`. Meaning this code will work in Windows:
+  ```py
+  print("Who are you?" + chr(13) + chr(10) + chr(9) + "I am Yu.")
+  ```
 - Use 3 quotation mark for multi line string:
   - E.g.: `"""Multiline string"""`
   - <table>

@@ -27,6 +27,8 @@
    - [Errors or exceptions](../05-errors-and-exceptions/errors.md).
    - [`try ... except ... finally`](../05-errors-and-exceptions/try-except-finally.md)
 6. [Files](../06-files/README.md).
+7. [Classes](../07-classes/README.md).
+   1. [Decorators](../07-classes/decorators.md) in Python.
 
 # Docs
 

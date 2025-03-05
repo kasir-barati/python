@@ -203,7 +203,7 @@ Do not be afraid of reading docs. I wanna show you how you could accomplish same
     ![Hello world app in Assembly, C++, and Python](./assets/python-cpp-assembly.png)
 
   - Flexibility with multiple paradigms: sometimes you need to [mix and match](https://www.collinsdictionary.com/dictionary/english/mix-and-match).
-  - Built-in support for OOP principles.
+  - <a href="#oopPrinciple" id="oopPrinciple">#</a> Built-in support for OOP principles.
 
     ![OOP principles](./assets/oop-principles.png)
 
