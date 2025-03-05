@@ -87,14 +87,14 @@ greet()
 
 ```py
 from typing import Callable
-def split(function: Callable[..., str]) -> Callable[[], list[str]]:
+def split(callback: Callable[..., str]) -> Callable[[], list[str]]:
     def wrapper():
-        func = function()
-        return func.split()
+        result = callback()
+        return result.split()
     return wrapper
-def uppercase(function: Callable[..., str]) -> Callable[[], str]:
+def uppercase(callback: Callable[..., str]) -> Callable[[], str]:
     def wrapper():
-        result = function()
+        result = callback()
         return result.upper()
     return wrapper
 
@@ -160,6 +160,11 @@ send_notification("")
           # ...
       return wrapper
   ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/3BKs9D9kGaE](https://youtu.be/3BKs9D9kGaE).
+- [https://aparat.com/v/sjg2n68](https://aparat.com/v/sjg2n68).
 
 ## Class-based Decorators
 
