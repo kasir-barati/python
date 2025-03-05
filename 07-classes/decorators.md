@@ -163,8 +163,8 @@ send_notification("")
 
 ## YouTube/Aparat
 
-- [https://youtu.be/3BKs9D9kGaE](https://youtu.be/3BKs9D9kGaE).
-- [https://aparat.com/v/sjg2n68](https://aparat.com/v/sjg2n68).
+- [https://youtu.be/jruFAGLdKsE](https://youtu.be/jruFAGLdKsE).
+- [https://aparat.com/v/mfb49g6](https://aparat.com/v/mfb49g6).
 
 ## Class-based Decorators
 
