@@ -89,3 +89,8 @@ class User:
 ## Ref
 
 - [Python's `property()`: Add Managed Attributes to Your Classes](https://realpython.com/python-property/).
+
+## YouTube/Aparat
+
+- [https://youtu.be/ZrBn4XPyFuQ](https://youtu.be/ZrBn4XPyFuQ).
+- [https://aparat.com/v/hbu4c70](https://aparat.com/v/hbu4c70).
