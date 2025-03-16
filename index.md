@@ -25,6 +25,7 @@
 6. [Files](./06-files/README.md).
 7. [Classes](./07-classes/README.md).
    1. [Decorators](./07-classes/decorators.md) in Python.
+   2. [An introduction to the topic](./07-classes/introduction-to-classes.md).
 
 # Docs
 
