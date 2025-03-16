@@ -26,6 +26,7 @@
 7. [Classes](./07-classes/README.md).
    1. [Decorators](./07-classes/decorators.md) in Python.
    2. [An introduction to the topic](./07-classes/introduction-to-classes.md).
+   3. [Getter & setter](./07-classes/getter-setter.md).
 
 # Docs
 
