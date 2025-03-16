@@ -267,3 +267,8 @@ class GitHubAccount:
 > help(User._get_avatar)
 > help(User.__init__)
 > ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/PP6-qUzWCpU](https://youtu.be/PP6-qUzWCpU).
+- [https://aparat.com/v/gbg8eri](https://aparat.com/v/gbg8eri).
