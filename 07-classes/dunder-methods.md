@@ -74,3 +74,8 @@ class BankAccount:
 my_account = BankAccount(123456789, 1000.0)
 print(my_account)
 ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/Po_2bCv8_uc](https://youtu.be/Po_2bCv8_uc).
+- [https://aparat.com/v/fxld834](https://aparat.com/v/fxld834).
