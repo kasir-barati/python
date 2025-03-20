@@ -5,7 +5,7 @@
 - are not meant to be invoked directly by the user but are internally invoked by the Python interpreter to perform specific actions.
 
   <details>
-  <summary>E.g. when you wanna specify how two objects should be added together, you can define a `__add__` method for your classes.</summary>
+  <summary>E.g. when you wanna specify how two objects should be added together, you can define a <code>__add__</code> method for your classes.</summary>
 
   ```py
   class Account:
