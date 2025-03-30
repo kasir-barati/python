@@ -32,6 +32,7 @@
    2. [An introduction to classes](../07-classes/introduction-to-classes.md).
    3. [Getter & setter](../07-classes/getter-setter.md).
    4. [Dunder methods](../07-classes/dunder-methods.md) in Python.
+   5. [OOP principles](../07-classes/oop-principles.md).
 
 # Docs
 

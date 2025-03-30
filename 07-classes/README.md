@@ -6,3 +6,4 @@ Here we talk about a couple of things we put off until now.
 2. [Classes](./introduction-to-classes.md) in Python.
 3. [Getters & setters](./getter-setter.md) in Python.
 4. [Dunder methods](./dunder-methods.md) in Python.
+5. [OOP principles](./oop-principles.md).
