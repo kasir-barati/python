@@ -261,3 +261,8 @@ if __name__ == "__main__":
     # This would raise an error since Animal is abstract
     # animal = Animal("Generic")
 ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/-nbj0gF6TXQ](https://youtu.be/-nbj0gF6TXQ).
+- [https://aparat.com/v/pjom106](https://aparat.com/v/pjom106).
