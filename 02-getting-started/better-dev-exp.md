@@ -213,6 +213,13 @@ An extension for showing intellisense. E.g. when you type `"a string"` and press
 
 </details>
 
+<details>
+<summary>isort</summary>
+
+An extension for sorting imports. We can also [configure it to do it on save](https://gist.github.com/cb109/47496649640c9c5f4287b06db7a7c197). To sort import you can open the command pallete (`ctrl+shift+p`) and type "organize imports".
+
+</details>
+
 ## YouTube/Aparat
 
 - [https://youtu.be/\_6kees89A-o](https://youtu.be/_6kees89A-o).
