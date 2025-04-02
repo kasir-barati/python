@@ -220,6 +220,10 @@ An extension for sorting imports. We can also [configure it to do it on save](ht
 
 </details>
 
+## Auto Import
+
+Open the settings (<code>ctrl+`</code>) and search for "auto import completions". Then check it.
+
 ## YouTube/Aparat
 
 - [https://youtu.be/\_6kees89A-o](https://youtu.be/_6kees89A-o).
