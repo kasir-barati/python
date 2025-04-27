@@ -10,6 +10,7 @@
 8. [Tuples, and sets](./tuples-sets.md).
 9. [Dictionaries](./dictionaries.md).
 10. [Looping, conditions, and comparing](./looping-compraing-and-conditions.md).
+11. [Zen of Python](./zen-of-python.md).
 
 > [!NOTE]
 >
