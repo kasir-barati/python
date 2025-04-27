@@ -30,6 +30,7 @@
    3. [Getter & setter](./07-classes/getter-setter.md).
    4. [Dunder methods](./07-classes/dunder-methods.md) in Python.
    5. [OOP principles](./07-classes/oop-principles.md).
+   6. [More about OOP](./07-classes/more-about-oop.md).
 
 # Docs
 
