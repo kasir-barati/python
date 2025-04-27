@@ -29,3 +29,18 @@ If the implementation is hard to explain, it's a bad idea.
 If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
+
+> [!TIP]
+>
+> Please read [this article on Real Python](https://realpython.com/zen-of-python/) to learn more and also see some examples.
+
+## Zen
+
+<img src="./assets/zen.png" style="float:left; margin-right: 1rem" /> Zen (禅) is a school of Mahayana Buddhism that emphasizes meditation, intuition, and enlightenment. It is often associated with minimalism, mindfulness, and a focus on the essence of things.
+
+<div style="clear:both"></div>
+
+## YouTube/Aparat
+
+- [https://youtu.be/SWc5Dkemv88](https://youtu.be/SWc5Dkemv88).
+- [https://aparat.com/v/ift85sz](https://aparat.com/v/ift85sz).
