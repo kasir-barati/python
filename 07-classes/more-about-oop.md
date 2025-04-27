@@ -202,3 +202,8 @@ This is how you should modify the `Html` class to make it work with aggregation 
 >
 > - In this example we do not need to change the `doc_type` and `head` objects, so we can use composition.
 > - But we need to change the content of the `body` object often (user clicks on something and we need to swap something with something else), so in this scenario we can utilize aggregation to make the code more flexible.
+
+## YouTube/Aparat
+
+- [https://youtu.be/q3r_DQ5fgOk](https://youtu.be/q3r_DQ5fgOk).
+- [https://aparat.com/v/oqy8t19](https://aparat.com/v/oqy8t19).
