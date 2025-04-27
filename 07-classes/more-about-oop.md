@@ -3,18 +3,15 @@
 - In Python, the `super()` function is used to call a method from a parent class.
 
   ```py
-  class FlyingBird(Bird):
+  class Person(object):
+      def __init__(self, name: str, age: int) -> None:
+          self.name = name
+          self.age = age
+  class Employee(Person):
       def __init__(self, name: str) -> None:
-          super(Bird, self).__init__(name, "pigeon", 10)
-          # super().__init__(name, "pigeon", 10)
-  ```
-
-  This is the same as:
-
-  ```py
-  class FlyingBird(Bird):
-      def __init__(self, name: str) -> None:
-          Bird.__init__(self, name, "pigeon", 10)
+          super(Employee, self).init(name, 20)
+          # super().__init__(name, 20)
+          # Person.__init__(self, name, 20)
   ```
 
 # Override Methods
