@@ -31,10 +31,6 @@ Fortunately Python comes to rescue with its built-in datetime module :mechanical
 <thead><tr><th>Jargon</th><th>Definition</th></tr></thead>
 <tbody>
 <tr>
-  <td>Wall time</td>
-  <td>AKA real-world time or wall-clock time, the actual time taken from the start of a computer program to the end.</td>
-</tr>
-<tr>
   <td>The Unix epoch</td>
   <td>The epoch is the reference point from which Unix time starts counting. Defined as midnight (00:00 UTC) on January 1, 1970 (<a href="https://stackoverflow.com/a/1090945/8784518">why this date?</a>).</td>
 </tr>
