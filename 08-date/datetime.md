@@ -1,6 +1,6 @@
 # [`datetime` Module](https://docs.python.org/3/library/datetime.html)
 
-## `Date` Class
+## `date` Class
 
 ```py
 import datetime
@@ -58,22 +58,22 @@ print(f"{birthdate.year}.{birthdate.month}.{birthdate.day}")
 <tbody><tr><td>
 
 ```py
-from datetime import date
-print(date.today())
+from datetime import datetime
+print(datetime.now())
 ```
 
 </td><td>
 
 ```py
-from datetime import date
-print(date.now())
+from datetime import datetime
+print(datetime.today())
 ```
 
 </td><td>
 
 ```py
-from datetime import date
-print(date.utcnow())
+from datetime import datetime
+print(datetime.utcnow())
 ```
 
 </td></tr></tbody>
@@ -86,9 +86,9 @@ print(date.utcnow())
 We can get the difference of times like this:
 
 ```py
-from datetime import date
-birthdate = date(2005, 1, 1)
-today = date.today()
+from datetime import datetime
+birthdate = datetime(2005, 1, 1)
+today = datetime.today()
 print(today - birthdate)
 ```
 
