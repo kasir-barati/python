@@ -156,6 +156,10 @@ if __name__ == "__main__":
     print(html)
 ```
 
+### Composition Live Coding Example
+
+You can see the code [here](./assets/composition-live-coding-example.py).
+
 # Aggregation
 
 - Weak form of composition.
@@ -207,3 +211,18 @@ This is how you should modify the `Html` class to make it work with aggregation 
 
 - [https://youtu.be/q3r_DQ5fgOk](https://youtu.be/q3r_DQ5fgOk).
 - [https://aparat.com/v/oqy8t19](https://aparat.com/v/oqy8t19).
+
+# [`repr`](https://docs.python.org/3/library/functions.html#repr)
+
+- Printable representation of an object.
+- We can have a dunder method for this one:
+
+  ```py
+  class Person:
+      def __init__(self, name, age):
+          self.name = name
+          self.age = age
+
+      def __repr__(self):
+          return f"Person('{self.name}', {self.age})"
+  ```

@@ -31,6 +31,7 @@
    4. [Dunder methods](./07-classes/dunder-methods.md) in Python.
    5. [OOP principles](./07-classes/oop-principles.md).
    6. [More about OOP](./07-classes/more-about-oop.md).
+8. [Date & time in Python](./08-date/README.md)
 
 # Docs
 
