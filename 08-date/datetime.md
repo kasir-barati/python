@@ -174,3 +174,8 @@ print(date.fromisoformat("2023-01-01"))
 
 </td></tr></tbody>
 </table>
+
+## YouTube/Aparat
+
+- [https://youtu.be/d1SjnLZ65MU](https://youtu.be/d1SjnLZ65MU).
+- [https://aparat.com/v/dqu1qmb](https://aparat.com/v/dqu1qmb).

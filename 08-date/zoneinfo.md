@@ -29,3 +29,8 @@
   from zoneinfo import available_timezones
   print('\n'.join(available_timezones()))
   ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/jK8_Hgnatgw](https://youtu.be/jK8_Hgnatgw).
+- [https://aparat.com/v/xcs89zb](https://aparat.com/v/xcs89zb).
