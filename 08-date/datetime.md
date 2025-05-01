@@ -150,3 +150,27 @@ print(time(12, 30))
 - The format is:
   - `YYYY-MM-DDTHH:MM:SS.mmmmmm±HH:MM`.
   - `T` is the separator between date and time.
+
+<table>
+<thead>
+<tr>
+<th><code>isoformat</code></th>
+<th><code>date.fromisoformat</code></th>
+</tr>
+</thead>
+<tbody><tr><td>
+
+```py
+from datetime import datetime
+print(datetime(2023, 1, 1).isoformat())
+```
+
+</td><td>
+
+```py
+from datetime import date
+print(date.fromisoformat("2023-01-01"))
+```
+
+</td></tr></tbody>
+</table>
