@@ -40,4 +40,5 @@
 
 # Docs
 
-- [AI roadmap](../docs/roadmaps/AI.md)
+- [Tips](./tips/README.md).
+- [AI roadmap](../docs/roadmaps/AI.md).
