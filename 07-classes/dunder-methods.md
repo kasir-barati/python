@@ -79,3 +79,79 @@ print(my_account)
 
 - [https://youtu.be/Po_2bCv8_uc](https://youtu.be/Po_2bCv8_uc).
 - [https://aparat.com/v/fxld834](https://aparat.com/v/fxld834).
+
+## [`__iter__`](https://docs.python.org/3/library/stdtypes.html#container.__iter__) & [`__next__`](https://docs.python.org/3/library/stdtypes.html#iterator.__next__)
+
+If you need to loop over your class and wanted to define how it should do it you need to implement `__iter__` and `__next__`.
+
+<table>
+<thead><tr><th>Not a Good Solution</th><th><a href="../09-generators/README.md">Generators</a></th><th><code>__iter__</code> & <code>__next__</code></th></tr></thead>
+<tbody><tr><td>
+
+```py
+class Person(object):
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+        self._data_attributes = ["name", "age"]
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if len(self._data_attributes) == 0:
+            raise StopIteration
+
+        return getattr(self, self._data_attributes.pop(0))
+
+
+p1 = Person("John", 30)
+
+for i in p1:
+    print(i)
+```
+
+**Note**, this solution is modifying `_data_attributes` during iteration (using `pop(0)`), which ain't good practice since we might want to use it somewhere else in that class.
+
+</td><td>
+
+```py
+from typing import Iterator
+
+
+class Person(object):
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+        self._data_attributes = ["name", "age"]
+
+    def __iter__(self) -> Iterator[str | int]:
+        # return (getattr(self, attr) for attr in self._data_attributes)
+        for attr_name in self._data_attributes:
+            yield getattr(self, attr_name)
+```
+
+</td><td>
+
+```py
+class Person(object):
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+        self._data_attributes = ["name", "age"]
+        self._index = 0  # Track iteration state
+
+    def __iter__(self):
+        self._index = 0  # Reset for new iterations
+        return self
+
+    def __next__(self):
+        if self._index >= len(self._data_attributes):
+            raise StopIteration
+        attr_name = self._data_attributes[self._index]
+        self._index += 1
+        return getattr(self, attr_name)
+```
+
+</td></tr></tbody>
+</table>

@@ -210,12 +210,12 @@ class Profile:
     """ User profile """
 
     @staticmethod
-    def _gen_id() -> str:
+    def gen_id() -> str:
         return str(uuid.uuid4())
 
     def __init__(self, username: str) -> None:
         self.username = username
-        self.id = Profile._gen_id()
+        self.id = Profile.gen_id()
 
     def whoami(self) -> str:
         return "{0.id}: {0.username}".format(self)
@@ -241,7 +241,7 @@ class GitHubAccount:
     """
 
     @staticmethod
-    def _get_avatar(username: str) -> str:
+    def get_avatar(username: str) -> str:
         """ Returns a direct link to the user's avatar. """
         # ...
         user_id = 123  # dummy value
@@ -249,14 +249,14 @@ class GitHubAccount:
 
     def __init__(self, username: str):
         self.username = username
-        self.avatar = GitHubAccount._get_avatar(username)
+        self.avatar = GitHubAccount.get_avatar(username)
         self.linked_repos = None
 ```
 
 - Do not repeat yourself.
 - Do not write docstring for the obvious.
 - Pick a descriptive method name instead of a cryptic name.
-- Write docstring when something might be ambiguous. E.g. here the returned string from `_get_avatar` might be interpreted as it will return the [file in Base64](https://en.wikipedia.org/wiki/Base64), or something else.
+- Write docstring when something might be ambiguous. E.g. here the returned string from `get_avatar` might be interpreted as it will return the [file in Base64](https://en.wikipedia.org/wiki/Base64), or something else.
 
 > [!TIP]
 >
@@ -264,9 +264,15 @@ class GitHubAccount:
 >
 > ```py
 > help(User)
-> help(User._get_avatar)
+> help(User.get_avatar)
 > help(User.__init__)
 > ```
+
+## Naming Conventions
+
+- To define a private attribute, prefix the name with an underscore.
+  - Learn about name mangling [here](./oop-principles.md#encapsulation).
+- The first argument of a method is called `self`.
 
 ## YouTube/Aparat
 

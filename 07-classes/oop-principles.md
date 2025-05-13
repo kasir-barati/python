@@ -103,6 +103,29 @@ if __name__ == "__main__":
 > | --- | --- |
 > | <pre lang="python"><code>class MyClass:</code></pre> | <pre lang="python"><code>class MyClass(object):</code></pre> |
 
+### [`isinstance`](https://docs.python.org/3/library/functions.html#isinstance)
+
+Checks an instance's type.
+
+```py
+class Test(int):
+    pass
+t = Test()
+print(isinstance(t, int))
+print(isinstance(t, Test))
+```
+
+### [`issubclass`](https://docs.python.org/3/library/functions.html#issubclass)
+
+Checks a class's inheritance.
+
+```py
+print(issubclass(FlyingBird, Bird))
+# This shows that builtin type are also classes.
+print(issubclass(bool, int))
+print(issubclass(float, int))
+```
+
 # Encapsulation
 
 ![](./assets/encapsulation.png)
