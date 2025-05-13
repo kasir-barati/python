@@ -1,7 +1,7 @@
 # Generators
 
 - Creates iterators.
-- Written like regular functions but use the yield statement whenever they want to return data.
+- Written like regular functions but use the `yield` statement whenever they want to return data.
 - Each time [`next()`](#next) is called on it, the generator resumes where it left off (it remembers all the data values and which statement was last executed).
   - The local variables and execution state are automatically saved between calls.
   - Easier to write, and much more clear than an approach using instance variables like `self.index` and `self.data` when we wanna iterate over attributes in a class.
@@ -15,9 +15,13 @@
 - Retrieve the next item from the iterator by calling its [`__next__`](../07-classes/dunder-methods.md#__iter__--__next__) method.
 
 ```py
-def reverse(data):
+from typing import Iterator
+
+
+def reverse(data: str) -> Iterator[str]:
     for index in range(len(data)-1, -1, -1):
         yield data[index]
+
 for char in reverse('golf'):
     print(char)
 ```
