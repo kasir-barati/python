@@ -37,3 +37,8 @@ for char in reverse('golf'):
 ```py
 print(sum(i*i for i in range(10)))
 ```
+
+## YouTube/Aparat
+
+- [https://youtu.be/\_LOyg2cXfkQ](https://youtu.be/_LOyg2cXfkQ).
+- [https://aparat.com/v/wvye470](https://aparat.com/v/wvye470).
