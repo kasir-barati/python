@@ -1,5 +1,26 @@
 <details>
-<summary>Typd dictionary</summary>
+<summary>Struct in Python</summary>
+
+bundling together a few named data items. The idiomatic approach is to use dataclasses for this purpose:
+
+```py
+from dataclasses import dataclass
+
+
+@dataclass
+class Employee:
+    name: str
+    salary: int
+    department: str
+
+john = Employee('john', 'computer lab', 1000)
+print(john.department)
+```
+
+</details>
+
+<details>
+<summary>Typed dictionary</summary>
 
 ```py
 from typing import TypedDict
