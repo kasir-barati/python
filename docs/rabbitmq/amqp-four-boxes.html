@@ -1,0 +1,67 @@
+<style>
+  body {
+    align-content: center;
+    box-sizing: border-box;
+
+    main {
+      display: flex;
+      flex-direction: row;
+      column-gap: 1rem;
+      font-size: 2rem;
+      color: white;
+      text-shadow: 0.1rem 0.1rem 0.1rem orangered;
+
+      div {
+        background: repeating-linear-gradient(
+          135deg,
+          transparent 1px,
+          turquoise 2px
+        );
+        text-align: center;
+        text-transform: capitalize;
+        padding-block: 2rem;
+        flex: 1 1;
+        align-content: center;
+        border: 0.3rem dashed black;
+
+        hr {
+          border: 0.15rem dashed black;
+          margin-inline: 1rem;
+        }
+      }
+      div:nth-child(4) {
+        flex: 4 4;
+      }
+    }
+  }
+</style>
+
+<main>
+  <div
+    title="A byte representing the type of frame. E.g. here it is a method frame."
+  >
+    Frame type
+    <hr />
+    1
+  </div>
+  <div type="Two byte representing the channel. In this case it is channel #12">
+    Channel
+    <hr />
+    12
+  </div>
+  <div
+    title="Size of the message (enables us to know how big the message will be before processing it)"
+  >
+    Size
+    <hr />
+    123
+  </div>
+  <div>Frame specific content</div>
+  <div
+    title="A byte that indicates the message has ended. This is excluded from the message size and is guaranteeing that the data has not been corrupted."
+  >
+    Frame end
+    <hr />
+    206
+  </div>
+</main>

@@ -1,0 +1,81 @@
+<style>
+  .mr-1 {
+    margin-inline-start: 1rem;
+  }
+  .arrow {
+    display: inline-block;
+    padding: 0.1rem;
+    border-inline-start: 0rem solid transparent;
+    border-inline-end: 1rem solid black;
+    border-block-end: 1rem solid black;
+    position: relative;
+    border-block-start: 0rem solid transparent;
+  }
+  .arrow::before {
+    display: inline-block;
+    background-color: black;
+    content: "";
+    position: absolute;
+    inline-size: 10rem;
+    block-size: 1rem;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    transform: rotate(45deg);
+  }
+  .arrow-right {
+    transform: rotate(-45deg);
+  }
+
+  body {
+    align-content: center;
+    box-sizing: border-box;
+
+    main {
+      font-size: 2rem;
+
+      h1 {
+        text-transform: capitalize;
+        text-align: center;
+        flex: 1 0;
+      }
+
+      section {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        color: white;
+        text-shadow: 0.1rem 0.1rem 0.1rem orangered;
+        text-align: center;
+        text-transform: capitalize;
+
+        > * {
+          flex: 1 1;
+        }
+
+        div {
+          inline-size: 10rem;
+          padding-block: 4rem;
+        }
+
+        div:first-of-type,
+        div:last-of-type {
+          border: 1px solid black;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+</style>
+
+<main>
+  <h1>competing consumer pattern</h1>
+  <section>
+    <div>Producer</div>
+    <span class="arrow arrow-right"></span>
+    <div>Exchange</div>
+    <span class="arrow arrow-right"></span>
+    <div></div>
+    <span class="arrow arrow-right"></span>
+    <div>Consumer</div>
+  </section>
+</main>
