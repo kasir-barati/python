@@ -76,4 +76,18 @@
 
 > [!CAUTION]
 >
-> The round robin distribution strategy works well in many scenarios but not always, especially if some of the consumers process the message quicker that others. This creates unbalanced message distribution.
+> The round robin distribution strategy works well in many scenarios but not always, especially if some of the consumers process the message quicker that others. This creates unbalanced message distribution. But we can tell RabbitMQ to not push a new message to a consumer as long as they have 1 message in process.
+>
+> ```py
+> channel.basic_qos(1)
+> ```
+>
+> And lastly we need to also prevent auto acknowledge where we consume:
+>
+> ```py
+> channel.basic_consume(constants.REGISTERED_USER_QUEUE,
+>                       handle_message,
+>                       auto_ack=False)
+> ```
+>
+> &mdash; [Complete example](./src/competing-consumer/README.md).

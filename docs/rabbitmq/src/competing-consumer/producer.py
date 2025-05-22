@@ -1,3 +1,6 @@
+import random
+from time import sleep
+import uuid
 import pika
 from payload_interfaces import RegisteredUserPayload
 import constants
@@ -12,9 +15,11 @@ channel = connection.channel()
 channel.queue_declare(constants.REGISTERED_USER_QUEUE)
 
 
-# Produce a message
-message: RegisteredUserPayload = {
-    "id": "682b603add4c8a3287bb54c0",
-    "name": "Mohammad Jawad",
-}
-channel.basic_publish("", constants.REGISTERED_USER_QUEUE_ROUTING_KEY, str(message))
+while True:
+    # Produce a message
+    message: RegisteredUserPayload = {
+        "id": str(uuid.uuid4()),
+        "name": "Mohammad Jawad",
+    }
+    channel.basic_publish("", constants.REGISTERED_USER_QUEUE_ROUTING_KEY, str(message))
+    sleep(random.randint(1, 3))
