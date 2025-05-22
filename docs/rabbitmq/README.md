@@ -67,3 +67,13 @@
 - Common pattern.
 - AKA work queue.
 - Pass the work (resource intensive work) without having to wait for its completion (e.g. in a GraphQL API where we receive a request from the client we do not wanna wait for our AI model to process and produces something, but rather we need to start the process and then store it whenever it is done).
+
+![Inforgraphic of competing consumer pattern](./assets/competing-consumer-pattern.png)
+
+> [!TIP]
+>
+> It's possible to push too many messages to the queue (our consumers cannot keep up with the rate of messages produced by the producers). In this situation we might run out of memory since RabbitMQ stores those messages on memory. So we need to add a new consumer for that queue to keep up with messages. RabbitMQ distributes the messages in sequence, thus each consumer will get the same amount of messages as the other consumers. This distribution strategy is called **Round Robin**.
+
+> [!CAUTION]
+>
+> The round robin distribution strategy works well in many scenarios but not always, especially if some of the consumers process the message quicker that others. This creates unbalanced message distribution.
