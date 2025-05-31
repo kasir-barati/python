@@ -1,6 +1,7 @@
 # Docs
 
 - [RabbitMQ](./rabbitmq/README.md).
+- [Pylint](./pylint.md).
 - Machine learning books:
   - [Hands-On machine learning with Keras and Tensorflow](https://github.com/ageron/handson-ml2).
     - Have not tried it.
