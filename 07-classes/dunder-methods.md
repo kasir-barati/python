@@ -155,3 +155,25 @@ class Person(object):
 
 </td></tr></tbody>
 </table>
+
+> [!TIP]
+>
+> If you need to define how you're `dataclass` should be converted to a dictionary you can use `__iter__` method, this is similar to `__str__` method:
+>
+> ```py
+> from dataclasses import dataclass
+> 
+> 
+> @dataclass
+> class User:
+>     def __init__(self):
+>         self.name = "something"
+>         self.age = 123
+>
+>     def __iter__(self):
+>         yield "name", self.name
+>         yield "age", self.version
+>
+> temp = User()
+> print(dict(temp))
+> ```
