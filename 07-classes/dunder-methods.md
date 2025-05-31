@@ -172,7 +172,7 @@ class Person(object):
 >
 >     def __iter__(self):
 >         yield "name", self.name
->         yield "age", self.version
+>         yield "age", self.age
 >
 > temp = User()
 > print(dict(temp))
