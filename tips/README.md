@@ -51,3 +51,33 @@ def me(user: Person) -> None:
 ```
 
 </details>
+
+<details>
+<summary>Casting types/Type assertion</summary>
+
+This is simalr to what you can do with `as` in Typescript.
+
+```py
+from typing import cast
+from enum import Enum
+
+
+class AdminRole(Enum):
+    SUPER_ADMIN = "SUPER_ADMIN"
+    ADMIN = "ADMIN"
+
+
+class Role(Enum):
+    SUPER_ADMIN = "SUPER_ADMIN"
+    ADMIN = "ADMIN"
+    USER = "USER"
+
+
+def create_product(role: Role) -> None:
+    print(role)
+
+
+create_product(cast(Role, AdminRole.ADMIN))
+```
+
+</details>
