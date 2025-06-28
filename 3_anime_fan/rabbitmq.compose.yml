@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9.20-management-alpine
+    env_file:
+      - .rabbitmq.env
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+    container_name: anime_die_heart_rabbitmq
+    # RabbitMQ stores data based on what it calls the "Node Name"
+    # It's default is hostname. What this means for usage in Docker?
+    # We should specify -h/--hostname explicitly for each daemon so
+    # that we don't get a random hostname and can keep track of our data
+    hostname: anime_die_heart_rabbitmq
