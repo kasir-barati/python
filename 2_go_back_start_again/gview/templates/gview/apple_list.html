@@ -1,0 +1,8 @@
+<h1>Apples</h1>
+<ul>
+  {% for apple in object_list %}
+  <li>{{ apple.pub_date|date }} - {{ apple.color }}</li>
+  {% empty %}
+  <li>No apples yet.</li>
+  {% endfor %}
+</ul>

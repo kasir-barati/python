@@ -1,0 +1,33 @@
+{% extends "gview/base.html" %}
+<br />
+{% block menu %}
+<ul>
+  {% if user.is_authenticated %}
+  <li>
+    <!-- <a href="{{login}}">Login</a> -->
+    <a href="{% url 'login' %} ?next= {{ request.path }}">Login</a>
+  </li>
+  {% else %}
+  <li>
+    <!-- <a href="{{logout}}">Logout</a> -->
+    <a href="{% url 'logout' %} ?next= {% url 'authz:open' %}">Logout</a>
+  </li>
+  {% endif %}
+</ul>
+{% endblock %}
+<br />
+{% block csrf_protected_form %}
+<p>CSRF protected form ...</p>
+<form method="post">
+  <p>
+    <label for="guess"> Guess: </label>
+    <input type="text" name="guess" id="guess" />
+  </p>
+  <input type="submit" value="I did my choice!" />
+  {% csrf_token %}
+</form>
+{% if guessed_number %}
+<div>You entered {{guessed_number}}</div>
+{% endif %}
+<br />
+{% endblock %}
