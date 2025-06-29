@@ -22,7 +22,9 @@
 
 1. `uv venv .venv --python 3.12.3`.
 2. `source .venv/bin/activate`.
-3. `uv pip install "fastapi[standard]"` or `uv pip install fastapi` to install absolute minimum for FastAPI to work.
+3. `uv pip install "fastapi[standard]"`
+   - Or `uv pip install fastapi` to install absolute minimum for FastAPI to work.
+   - Or `uv pip install "fastapi[all]"` to install everything.
 4. `code src/main.py`.
 5. ```py
    from typing import TypedDict
@@ -44,3 +46,21 @@
 > - The `@app.get` is called "**path operation decorator**".
 > - Learn about `POST-PUT` pattern [here](https://dev.to/kasir-barati/patch-vs-put-2pa3).
 > - Use `async def` even if you're not gonna use `await` syntax since this will enable FastAPI to do some performance optimizations.
+
+## Environment Variables
+
+- Variable that lives outside of the Python code, in the operating system.
+- Settings and configurations are what we usually intend to get from env variables.
+- We tend to not store them in our VCS.
+
+### Any Value Read in Python from an Environment Variable will be a String
+
+- `uv pip install pydantic-settings`.
+- Is **case-insensitive**, i.e. `APP_NAME` is equal to `app_name`.
+- With `get_settings` helper function you can easily override the env values in your tests.
+
+### Reading a `.env` File
+
+- `uv pip install python-dotenv`.
+- This file is called a "dotenv".
+- Note: files ending with `.env` should be gitignored.
