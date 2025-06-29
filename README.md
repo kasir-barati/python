@@ -106,3 +106,13 @@ async def read_user_me():
 </td></tr></tbody>
 
 </table>
+
+## Query Parameters
+
+Other function parameters that are not part of the path parameters are considered as a query string as long as they are not complex data types such as nested dictionaries!
+
+> [!CAUTION]
+>
+> FastAPI does **NOT** accept JSON-encoded pydantic models in query strings! As dumb and stupid it sounds but it is the truth ([learn more](https://github.com/fastapi/fastapi/discussions/7919)).
+>
+> And even though we can work around it the final OpenAPI documentation would not be that beautiful. We loss all info related to what would be the shape of a complex query string! It simply shows as a string in Swagger UI.
