@@ -5,7 +5,13 @@ from uuid import UUID, uuid4
 from fastapi import FastAPI
 
 from config import Settings
-from dtos import IndexResponse, UsersResponse, OrdersResponse, FilterOrders
+from dtos import (
+    IndexResponse,
+    UsersResponse,
+    OrdersResponse,
+    FilterOrders,
+    CreateUserRequest,
+)
 from utils import json_param
 
 
@@ -45,3 +51,19 @@ async def orders(
 @app.get(path="/users")
 async def users(skip: int = 0, limit: int = 10) -> UsersResponse:
     return {"data": [{"id": str(uuid4())}], "limit": limit, "skip": skip}
+
+
+@app.put("/users/")
+@app.put("/users/{user_id}")
+async def upsert_user(
+    request_body: CreateUserRequest, user_id: UUID | None = None
+) -> str:
+    logger.debug(request_body)
+
+    if user_id is None:
+        logger.info("Inserting a new record in database...")
+        user_id = uuid4()
+    else:
+        logger.info("Updating the existing record in database...")
+
+    return str(user_id)

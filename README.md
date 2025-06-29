@@ -73,6 +73,15 @@ async def refund_order(order_id: int) -> None:
     pass
 ```
 
+**Optional path parameter:**
+
+```py
+@app.put("/users/")
+@app.put("/users/{user_id}")
+async def create_user(request_body: CreateUserRequest, user_id: UUID | None = None):
+    pass
+```
+
 ### `/users/me` & `/users/{user_id}`
 
 - In this case we need to **first declare** the `/users/me` and then the other one. **Order matters!**
