@@ -64,3 +64,45 @@
 - `uv pip install python-dotenv`.
 - This file is called a "dotenv".
 - Note: files ending with `.env` should be gitignored.
+
+## Path/Route Parameters
+
+```py
+@app.post(path="/orders/{order_id}/refund", status_code=200)
+async def refund_order(order_id: int) -> None:
+    pass
+```
+
+### `/users/me` & `/users/{user_id}`
+
+- In this case we need to **first declare** the `/users/me` and then the other one. **Order matters!**
+- Path operations are evaluated in the order they've been defined in code.
+
+<table>
+<thead><tr><th>Correct :white_check_mark:</th><th>Incorrect :x:</th></tr></thead>
+<tbody><tr><td>
+
+```py
+@app.get("/users/me")
+async def read_user_me():
+    ...
+@app.get("/users/{user_id}")
+async def read_user(user_id: str):
+    ...
+```
+
+</td><td>
+
+```py
+@app.get("/users/{user_id}")
+async def read_user(user_id: str):
+    # match also for /users/me, "thinking" that it's receiving a parameter user_id with a value of "me".
+    ...
+@app.get("/users/me")
+async def read_user_me():
+    ...
+```
+
+</td></tr></tbody>
+
+</table>
