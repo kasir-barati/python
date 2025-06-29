@@ -58,7 +58,7 @@ async def users(skip: int = 0, limit: int = 10) -> UsersResponse:
 async def upsert_user(
     request_body: CreateUserRequest, user_id: UUID | None = None
 ) -> str:
-    logger.debug(request_body)
+    logger.info(request_body)
 
     if user_id is None:
         logger.info("Inserting a new record in database...")
