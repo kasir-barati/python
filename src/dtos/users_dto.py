@@ -1,6 +1,6 @@
-from typing import Annotated, TypedDict
+from typing import Annotated, ClassVar, TypedDict
 
-from pydantic import AfterValidator, BaseModel, EmailStr, SecretStr
+from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field, SecretStr
 
 from utils.validate_password_util import validate_password
 
@@ -11,7 +11,10 @@ class User(TypedDict):
 
 class CreateUserRequest(BaseModel):
     email: EmailStr
+    name: str = Field(min_length=2)
     password: Annotated[SecretStr, AfterValidator(validate_password)]
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(str_strip_whitespace=True)
 
 
 class UsersResponse(TypedDict):

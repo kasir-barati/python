@@ -112,9 +112,7 @@ async def read_user_me():
     ...
 ```
 
-</td></tr></tbody>
-
-</table>
+</td></tr></tbody></table>
 
 ## Query Parameters
 
@@ -125,3 +123,65 @@ Other function parameters that are not part of the path parameters are considere
 > FastAPI does **NOT** accept JSON-encoded pydantic models in query strings! As dumb and stupid it sounds but it is the truth ([learn more](https://github.com/fastapi/fastapi/discussions/7919)).
 >
 > And even though we can work around it the final OpenAPI documentation would not be that beautiful. We loss all info related to what would be the shape of a complex query string! It simply shows as a string in Swagger UI.
+
+## Data Validation -- Pydantic
+
+- Use `Annotated` in combination with `Query()`, `Path()`, `Body()`, `Header()`, and `Cookie()`.
+  - When you use these methods then it makes it more clear when something should be in query string, or request body.
+- You can have custom validators which will be invoked before or after the standard validation executed by FastAPI:
+  - [`AfterValidator`](./src/dtos/users_dto.py).
+  - `BeforeValidator`.
+- For validations that require communicating with things like a database or another API, you should instead use FastAPI Dependencies.
+- For number validation we have:
+  - `gt`: `g`reater `t`han.
+  - `ge`: `g`reater than or `e`qual.
+  - `lt`: `l`ess `t`han.
+  - `le`: `l`ess than or `e`qual.
+
+> [!TIP]
+>
+> <table>
+> <thead><tr><th>New approach</th><th>Legacy approach</th></tr></thead>
+> <tbody><tr><td>
+>
+> ```py
+> @app.get("/items/")
+>     async def read_items(q: Annotated[str | None, Query(max_length=50)] = None)
+> ```
+>
+> </td><td>
+>
+> ```py
+> @app.get("/items/")
+>     async def read_items(q: str | None = Query(default=None, max_length=50))
+> ```
+>
+> </td></tr></tbody></table>
+
+> [!CAUTION]
+>
+> You cannot do this in FastAPI:
+>
+> ```py
+> @app.put("/users/")
+> @app.put("/users/{user_id}")
+> async def upsert_user(
+>     request_body: CreateUserRequest,
+>     user_id: Annotated[
+>         UUID | None,
+>         Path(
+>             alias="userId",
+>             title="User ID",
+>             description="If you provide the user ID then we will try to find the user in DB and replace the existing data with the request body.",
+>         ),
+>     ] = None,
+> ) -> None:
+>     ...
+> ```
+>
+> [GitHub discussion](https://github.com/fastapi/fastapi/discussions/13836).
+
+# ToBeContinued
+
+- https://fastapi.tiangolo.com/tutorial/query-param-models/
+- https://fastapi.tiangolo.com/python-types/#type-hints-in-fastapi

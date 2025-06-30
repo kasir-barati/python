@@ -1,0 +1,6 @@
+[tool.black]
+line-length = 70
+target-version = ['py37']
+
+[tool.basedpyright]
+reportCallInDefaultInitializer = false

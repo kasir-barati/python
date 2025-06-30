@@ -8,7 +8,12 @@ from pydantic import BaseModel, Field
 class FilterOrders(BaseModel):
     user_id: UUID | None = Field(None, alias="userId")
     created_at: datetime | None = Field(None, alias="createdAt")
-    order_number: str | None = Field(None, alias="orderNumber")
+    order_number: str | None = Field(
+        None,
+        alias="orderNumber",
+        pattern="^[A-Za-z1-9]$",
+        examples=["asdASD123"],
+    )
 
 
 class Order(TypedDict):
