@@ -1,61 +1,62 @@
 import json
-import logging
-from typing import cast
 
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
 
-from ..dtos import User
+from ..models import User
 from ..utils import (
     USER_CREATED_QUEUE,
     USER_UPDATED_QUEUE,
     get_connection_channel,
+    get_session,
 )
-
-logger = logging.getLogger("uvicorn")
-
-users: list[User] = []
 
 
 def user_created_handler(
     channel: BlockingChannel,
     method: Basic.Deliver,
-    properties: BasicProperties,
+    _properties: BasicProperties,
     body: bytes,
 ) -> None:
-    logger.debug("<Pushing the new user to the queue>" * 80)
-    created_user = cast(User, json.loads(body.decode()))
-    users.append(created_user)
+    print("Creating new user...")
+    created_user = json.loads(body.decode())
+    session = get_session()
+    user = User(**created_user)
+    session.add(user)
+    session.commit()
     channel.basic_ack(delivery_tag=method.delivery_tag)
+    session.close()
 
 
 def user_updated_handler(
-    channel: BlockingChannel,
-    method: Basic.Deliver,
-    properties: BasicProperties,
+    _channel: BlockingChannel,
+    _method: Basic.Deliver,
+    _properties: BasicProperties,
     body: bytes,
 ) -> None:
-    updated_user = cast(User, json.loads(body.decode()))
-    user = next(
-        (u for u in users if u["id"] == updated_user["id"]), None
+    updated_user = json.loads(body.decode())
+    session = get_session()
+    user = (
+        session.query(User).filter_by(id=updated_user["id"]).first()
     )
 
     if user is None:
-        logger.warning(
+        print(
             f"Could not find the user (user ID: {updated_user['id']})!"
         )
         return
 
-    user_index = next(
-        index
-        for index in range(len(users))
-        if users[index]["id"] == updated_user["id"]
-    )
-
-    users[user_index] = {**users[user_index], **updated_user}
+    print("Updating the user...")
+    user.name = updated_user["name"]
+    user.email = updated_user["email"]
+    user.password = updated_user["password"]
+    session.commit()
+    session.close()
 
 
 def start_user_consumers():
+    print("Start consuming user events!")
+
     _, channel = get_connection_channel(
         [USER_CREATED_QUEUE, USER_UPDATED_QUEUE]
     )
@@ -66,4 +67,8 @@ def start_user_consumers():
         on_message_callback=user_updated_handler,
         auto_ack=True,
     )
-    channel.start_consuming()
+    try:
+        channel.start_consuming()
+    except KeyboardInterrupt:
+        print("Gracefully shutting down user consumer...")
+        channel.stop_consuming()

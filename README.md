@@ -187,6 +187,50 @@ Other function parameters that are not part of the path parameters are considere
 >
 > [GitHub discussion](https://github.com/fastapi/fastapi/discussions/13836).
 
+## RabbitMQ + FastAPI
+
+- `channel.start_consuming()` is a blocking call.
+- You need to start the process as a separate process.
+- And to cleanup those processes you need to use [`lifespan` parameter](https://fastapi.tiangolo.com/advanced/events/#lifespan) of the FastAPI app.
+
+> [!NOTE]
+>
+> If you stop the app with `Ctrl+C` you need to stop consuming. Otherwise you'll get this error:
+>
+> ```bash
+> Process Process-1:1:
+> Traceback (most recent call last):
+>   File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+>     self.run()
+>   File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+>     self._target(*self._args, **self._kwargs)
+>   File "/home/kasir/projects/python/src/consumers/user_consumer.py", line 75, in start_user_consumers
+>     raise e
+>   File "/home/kasir/projects/python/src/consumers/user_consumer.py", line 71, in start_user_consumers
+>     channel.start_consuming()
+>   File "/home/kasir/projects/python/.venv/lib/python3.12/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+>     self._process_data_events(time_limit=None)
+>   File "/home/kasir/projects/python/.venv/lib/python3.12/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+>     self.connection.process_data_events(time_limit=time_limit)
+>   File "/home/kasir/projects/python/.venv/lib/python3.12/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+>     self._flush_output(common_terminator)
+>   File "/home/kasir/projects/python/.venv/lib/python3.12/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+>     self._impl.ioloop.poll()
+>   File "/home/kasir/projects/python/.venv/lib/python3.12/site-packages/pika/adapters/select_connection.py", line 579, in poll
+>     self._poller.poll()
+>   File "/home/kasir/projects/python/.venv/lib/python3.12/site-packages/pika/adapters/select_connection.py", line 1184, in poll
+>     events = self._poll.poll(self._get_max_wait())
+>              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> KeyboardInterrupt
+> ```
+
+### FastAPI + Multiprocessing Best Practices Checklist:
+
+- [x] Use `multiprocessing.Process` (not threads) for long-running/blocking code.
+- [x] Spawn processes inside the lifespan startup section.
+- [x] Ensure proper termination (`process.terminate()` + `process.join()`) in the shutdown section.
+- [x] Do not use `SIGTERM` and `SIGINT` in your FastAPI app.
+
 # ToBeContinued
 
 - https://fastapi.tiangolo.com/tutorial/query-param-models/

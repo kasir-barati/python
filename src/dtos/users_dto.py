@@ -16,7 +16,6 @@ class User(TypedDict):
     id: str
     email: str
     name: str
-    password: SecretStr
 
 
 class CreateUserRequest(BaseModel):

@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     app_name: str = r"/\/\y @P!"
     rabbitmq_uri: str
+    postgres_uri: str
 
     # This is how you can shorten the env variable name
     # some_var: str = Field(alias="some_env_var")
