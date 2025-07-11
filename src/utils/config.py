@@ -5,8 +5,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     app_name: str = r"/\/\y @P!"
-    rabbitmq_host: str
-    rabbitmq_port: int = 5672
+    rabbitmq_uri: str
+
+    # This is how you can shorten the env variable name
+    # some_var: str = Field(alias="some_env_var")
 
     # model_config is used for Pydantic configuration
     model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(

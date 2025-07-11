@@ -14,6 +14,9 @@ from ..utils.validate_password_util import validate_password
 
 class User(TypedDict):
     id: str
+    email: str
+    name: str
+    password: SecretStr
 
 
 class CreateUserRequest(BaseModel):

@@ -5,7 +5,7 @@ from uuid import UUID
 from fastapi import APIRouter, Path, Query
 
 from ..dtos import FilterOrders, OrdersResponse
-from ..utils.json_param_util import json_param
+from ..utils import json_param
 
 order_router = APIRouter()
 logger = logging.getLogger("uvicorn")

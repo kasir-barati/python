@@ -2,8 +2,8 @@ from functools import lru_cache
 
 from fastapi import APIRouter
 
-from ..config import Settings
 from ..dtos import IndexResponse
+from ..utils import Settings
 
 
 # Cached the env variables to prevent reading it from FS over and over.
