@@ -66,3 +66,4 @@ def start_user_consumers():
         on_message_callback=user_updated_handler,
         auto_ack=True,
     )
+    channel.start_consuming()
