@@ -5,6 +5,7 @@
 import base64
 import numpy
 import requests
+from typing import overload
 
 @overload
 def get_as_base64(imageOrUrl: numpy.ndarray) -> str: ...
