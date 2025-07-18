@@ -5,6 +5,10 @@
 <details>
 <summary>Change the return type based on a parameter in Python</summary>
 
+<table>
+<thead><tr><th>No default value</th><th>With default value</th></tr></thead>
+<tbody><tr><td>
+
 ```py
 from typing import overload, Literal, Any, TypedDict
 
@@ -23,7 +27,9 @@ class UserRepository:
     def update_user(
         self, filters: Any, return_update_users: Literal[False]
     ) -> None: ...
-    def update_user(self, filters: Any, return_update_users: bool) -> list[User] | None:
+    def update_user(
+        self, filters: Any, return_update_users: bool
+    ) -> list[User] | None:
         # TODO: update users!
 
         if not return_update_users:
@@ -42,7 +48,49 @@ print(f"users: {users}, type: {type(users)}")
 print(f"result: {result}, type: {type(result)}")
 ```
 
-</details>
+</td><td>
+
+```py
+from typing import overload, Literal, Any, TypedDict
+
+
+class User(TypedDict):
+    id: str
+    name: str
+
+
+class UserRepository:
+    @overload
+    def update_user(
+        self, filters: Any, return_update_users: Literal[True] = True
+    ) -> list[User]: ...
+    @overload
+    def update_user(
+        self, filters: Any, return_update_users: Literal[False]
+    ) -> None: ...
+    def update_user(
+        self, filters: Any, return_update_users: bool = True
+    ) -> list[User] | None:
+        # TODO: update users!
+
+        if not return_update_users:
+            return
+
+        # ...
+        return []
+
+
+userRepository = UserRepository()
+users = userRepository.update_user({}, True)
+result = userRepository.update_user({}, False)
+
+# Verify the types and values
+print(f"users: {users}, type: {type(users)}")
+print(f"result: {result}, type: {type(result)}")
+```
+
+</td></tr></tbody>
+</table></details>
 
 <details>
 <summary>Function overloading in Python</summary>
