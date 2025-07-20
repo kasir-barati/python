@@ -13,5 +13,5 @@ class Settings(BaseSettings):
 
     # model_config is used for Pydantic configuration
     model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(
-        env_file=".env", extra="ignore"
+        extra="ignore"
     )
