@@ -3,6 +3,20 @@
 I love to have types, because they gimme a sense of what the heck am I doing and what I should not probably do :grin:.
 
 <details>
+<summary>How to annotate tuple of tuples?</summary>
+
+The `...` (ellipsis) means it can have any number of these inner tuples (including zero).
+
+```py
+metadata: tuple[tuple[str, str], ...] = (
+    ("request-id", "83c5952d-ce66-4c1b-97cd-d732983e9cf5"),
+    ("authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"),
+)
+```
+
+</details>
+
+<details>
 <summary>Change the return type based on a parameter in Python</summary>
 <table>
 <thead><tr><th>No default value</th><th>With default value</th></tr></thead>
