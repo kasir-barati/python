@@ -1,18 +1,28 @@
 # Python + gRPC
 
-1. `uv venv .venv --python 3.12`
-2. `source .venv/bin/activate`.
-3. `uv pip install grpcio-tools`.
-   - We can generate Python code from protobufs.
-   - The tool is installed as part of the `grpcio-tools` package.
-4. `mkdir src/stubs`.
-5. `python -m grpc_tools.protoc -I src/protobufs --pyi_out=src/stubs --python_out=src/stubs --grpc_python_out=src/stubs src/protobufs/*.proto`.
-   - Generates Python code from the protobufs by running the protobuf compiler.
-   - `python -m grpc_tools.protoc`: will generate Python code from the protobuf code.
-   - `-I src/protobufs`: where to find files that your protobuf code imports.
-   - `--pyi_out=src/stubs` will auto generate classes and types you need.
-   - `--python_out=src/stubs --grpc_python_out=src/stubs`: where to output the Python files.
-   - `src/protobufs/*.proto`: the path to the protobuf file.
+1. `make venv`
+2. `make grpc_gen`.
+3. ```bash
+   make start_server
+   make start_client
+   ```
+
+> [!TIP]
+>
+> ```bash
+> python -m grpc_tools.protoc -I src/protobufs \
+>   --pyi_out=src/stubs \
+>   --python_out=src/stubs \
+>   --grpc_python_out=src/stubs \
+>   src/protobufs/*.proto
+> ```
+>
+> - Generates Python code from the protobufs by running the protobuf compiler.
+> - `python -m grpc_tools.protoc`: will generate Python code from the protobuf code.
+> - `-I src/protobufs`: where to find files that your protobuf code imports.
+> - `--pyi_out=src/stubs` will auto generate classes and types you need.
+> - `--python_out=src/stubs --grpc_python_out=src/stubs`: where to output the Python files.
+> - `src/protobufs/*.proto`: the path to the protobuf file.
 
 > [!CAUTION]
 >

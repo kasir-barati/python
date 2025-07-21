@@ -1,38 +1,42 @@
 from concurrent.futures import ThreadPoolExecutor
+from time import sleep
+from typing import Any
 
 from grpc import StatusCode, server
 
-from greet_pb2 import GreetMeRequest, GreetMeResponse
-from greet_pb2_grpc import (
+from .stubs.greet_pb2 import (
+    SubscribeToNotificationsRequest,
+    SubscribeToNotificationsResponse,
+)
+from .stubs.greet_pb2_grpc import (
     GreetService,
     add_GreetServiceServicer_to_server,
 )
 
 
 class GreetServiceImplementation(GreetService):
-    def GreetMe(
-        self, request: GreetMeRequest, context
-    ) -> GreetMeResponse | None:
+    def SubscribeToNotifications(
+        self, request: SubscribeToNotificationsRequest, context: Any
+    ):
         metadata = dict(context.invocation_metadata())
+
         print(metadata)
 
-        if request.name.strip() == "":
+        if request.notification_type.strip() == "":
             context.abort(
                 StatusCode.INVALID_ARGUMENT, "name should be provided"
             )
             return
-        if request.language.strip() == "":
-            context.abort(
-                StatusCode.INVALID_ARGUMENT,
-                "language should be provided",
-            )
-            return
 
-        return GreetMeResponse(
-            f"Hallo {request.name}"
-            if request.language == "de"
-            else f"Hi {request.name}"
-        )
+        for index in range(10):
+            response = SubscribeToNotificationsResponse()
+            response.content = "something went wrong"
+            response.title = "Error #123"
+            response.type = "error"
+            response.is_blocking = True
+
+            yield response
+            sleep(5)
 
 
 if __name__ == "__main__":

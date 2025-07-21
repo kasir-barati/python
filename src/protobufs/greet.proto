@@ -6,48 +6,15 @@ import "google/protobuf/timestamp.proto";
 
 // A class to show you how you can greet someone.
 service GreetService {
-  rpc GreetMe(GreetMeRequest) returns (GreetMeResponse);
   rpc SubscribeToNotifications(SubscribeToNotificationsRequest) returns (stream SubscribeToNotificationsResponse);
-  rpc UserActions(stream UserActionsRequest) returns (UserActionsResponse);
-  rpc FileUpload(stream FileUploadRequest) returns (stream FileUploadResponse);
 }
 
-message GreetMeRequest {
-  string name = 1;
-  string language = 2;
-}
-message GreetMeResponse {
-  string greeting = 1;
-}
-enum NotificationType {
-  NOTIFICATION_TYPE_UNKNOWN = 0;
-  NOTIFICATION_TYPE_INFO = 1;
-  NOTIFICATION_TYPE_ERROR = 2;
-  NOTIFICATION_TYPE_WARNING = 3;
-}
 message SubscribeToNotificationsRequest {
+  string notification_type = 1;
 }
 message SubscribeToNotificationsResponse {
-  NotificationType type = 1;
+  string type = 1;
   string title = 2;
   string content = 3;
   optional bool is_blocking = 4;
-}
-enum UserActionType {
-  USER_ACTION_TYPE_UNKNOWN = 0;
-  USER_ACTION_TYPE_CLICK = 1;
-}
-message UserActionsRequest {
-  string user_agent = 1;
-  UserActionType type = 2;
-  google.protobuf.Timestamp timestamp = 3;
-}
-message UserActionsResponse {
-}
-message FileUploadRequest {
-  bytes data = 1;
-  int32 part_number = 2;
-}
-message FileUploadResponse {
-  int32 part_number = 1;
 }
