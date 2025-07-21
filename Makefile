@@ -29,10 +29,13 @@ start_server:
 start_client:
 	$(PYTHON) -m src.client
 
+format:
+	$(PYTHON) -m black src
+
 clean:
 	rm -rf .venv
 
 freeze:
-	$(PIP) freeze > requirements.txt
+	pip freeze > requirements.txt
 
 .PHONY: grpc_gen
