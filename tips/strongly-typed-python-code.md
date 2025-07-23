@@ -3,6 +3,19 @@
 I love to have types, because they gimme a sense of what the heck am I doing and what I should not probably do :grin:.
 
 <details>
+<summary>How to define an interface which will accept any class as long as it has field x of type y?</summary>
+
+```py
+from typing import Protocol, Any
+class EventPayload(Protocol):
+    id: str
+    body: Any
+    # ...
+```
+
+</details>
+
+<details>
 <summary>How to annotate tuple of tuples?</summary>
 
 The `...` (ellipsis) means it can have any number of these inner tuples (including zero).
