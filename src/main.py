@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
@@ -14,28 +15,27 @@ from .routers import (
     user_router,
 )
 from .utils import (
-    cleanup_background_processes,
     cleanup_database_connection,
     init_database_connection,
-    start_in_background,
 )
+
+logger = logging.getLogger("uvicorn")
 
 
 @asynccontextmanager
 async def lifespan(
     _app: FastAPI,
 ) -> AsyncGenerator[Any, Any]:
-    print("Bootstrapping...")
+    logger.info("Bootstrapping...")
     init_database_connection()
-    start_in_background(start_user_consumers)
+    asyncio.run(start_user_consumers())
+    logger.info("2" * 80)
     yield
-    print("Cleaning up...")
-    cleanup_background_processes()
+    logger.info("Cleaning up...")
     cleanup_database_connection()
 
 
 app = FastAPI(lifespan=lifespan)
-logger = logging.getLogger("uvicorn")
 
 app.include_router(index_router)
 app.include_router(order_router)

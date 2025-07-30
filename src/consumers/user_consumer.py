@@ -1,40 +1,42 @@
+import asyncio
 import json
+from functools import lru_cache
 
-from pika.adapters.blocking_connection import BlockingChannel
-from pika.spec import Basic, BasicProperties
+from aio_pika.abc import AbstractIncomingMessage
 
 from ..models import User
 from ..utils import (
     USER_CREATED_QUEUE,
     USER_UPDATED_QUEUE,
+    Settings,
     get_connection_channel,
     get_session,
 )
 
 
-def user_created_handler(
-    channel: BlockingChannel,
-    method: Basic.Deliver,
-    _properties: BasicProperties,
-    body: bytes,
+# Cached the env variables to prevent reading it from FS over and over.
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+async def user_created_handler(
+    message: AbstractIncomingMessage,
 ) -> None:
     print("Creating new user...")
-    created_user = json.loads(body.decode())
+    created_user = json.loads(message.body.decode())
     session = get_session()
     user = User(**created_user)
     session.add(user)
     session.commit()
-    channel.basic_ack(delivery_tag=method.delivery_tag)
     session.close()
+    await message.ack()
 
 
-def user_updated_handler(
-    _channel: BlockingChannel,
-    _method: Basic.Deliver,
-    _properties: BasicProperties,
-    body: bytes,
+async def user_updated_handler(
+    message: AbstractIncomingMessage,
 ) -> None:
-    updated_user = json.loads(body.decode())
+    updated_user = json.loads(message.body.decode())
     session = get_session()
     user = (
         session.query(User).filter_by(id=updated_user["id"]).first()
@@ -54,21 +56,27 @@ def user_updated_handler(
     session.close()
 
 
-def start_user_consumers():
+async def start_user_consumers():
     print("Start consuming user events!")
 
-    _, channel = get_connection_channel(
-        [USER_CREATED_QUEUE, USER_UPDATED_QUEUE]
+    settings = get_settings()
+    loop = asyncio.get_running_loop()
+    _, channel = await get_connection_channel()
+
+    await channel.set_qos(prefetch_count=settings.prefetch_count)
+
+    user_created_queue = await channel.declare_queue(
+        USER_CREATED_QUEUE, auto_delete=True
+    )
+    user_updated_queue = await channel.declare_queue(
+        USER_UPDATED_QUEUE, auto_delete=True
     )
 
-    channel.basic_consume(USER_CREATED_QUEUE, user_created_handler)
-    channel.basic_consume(
-        queue=USER_UPDATED_QUEUE,
-        on_message_callback=user_updated_handler,
-        auto_ack=True,
+    loop.create_task(
+        user_created_queue.consume(user_created_handler, no_ack=False)
     )
-    try:
-        channel.start_consuming()
-    except KeyboardInterrupt:
-        print("Gracefully shutting down user consumer...")
-        channel.stop_consuming()
+    loop.create_task(
+        user_updated_queue.consume(user_updated_handler, no_ack=True)
+    )
+
+    asyncio.sleep(2)

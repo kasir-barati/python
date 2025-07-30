@@ -1,10 +1,9 @@
 import json
 import logging
-from typing import cast
 from uuid import UUID, uuid4
 
+from aio_pika import Message
 from fastapi import APIRouter
-from pika import BasicProperties, DeliveryMode
 
 from ..dtos import CreateUserRequest, UsersResponse
 from ..models import User
@@ -17,12 +16,6 @@ from ..utils import (
 
 user_router = APIRouter()
 logger = logging.getLogger("uvicorn")
-_, channel = get_connection_channel(
-    queues=[
-        USER_CREATED_QUEUE,
-        USER_UPDATED_QUEUE,
-    ]
-)
 
 
 @user_router.get(path="/users", response_model=UsersResponse)
@@ -49,32 +42,29 @@ async def upsert_user(
     user_id: UUID | None = None,
 ) -> str:
     logger.info(request_body)
+    _, channel = await get_connection_channel()
 
     if user_id is None:
         logger.info("Inserting a new record in database...")
         user_id = uuid4()
-        channel.basic_publish(
-            exchange="",
+        await channel.default_exchange.publish(
             routing_key=USER_CREATED_QUEUE,
-            body=json.dumps(
-                obj={"id": user_id, **request_body.model_dump()},
-                default=str,
-            ),
-            properties=BasicProperties(
-                delivery_mode=DeliveryMode.Persistent
+            message=Message(
+                json.dumps(
+                    obj={"id": user_id, **request_body.model_dump()},
+                    default=str,
+                ).encode()
             ),
         )
     else:
         logger.info("Updating the existing record in database...")
-        channel.basic_publish(
-            exchange="",
+        await channel.default_exchange.publish(
             routing_key=USER_UPDATED_QUEUE,
-            body=json.dumps(
-                obj={"id": user_id, **request_body.model_dump()},
-                default=str,
-            ),
-            properties=BasicProperties(
-                delivery_mode=DeliveryMode.Persistent
+            message=Message(
+                json.dumps(
+                    obj={"id": user_id, **request_body.model_dump()},
+                    default=str,
+                ).encode(),
             ),
         )
 

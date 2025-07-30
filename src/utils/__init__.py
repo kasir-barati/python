@@ -11,10 +11,6 @@ from .rabbitmq_util import (
     USER_UPDATED_QUEUE,
     get_connection_channel,
 )
-from .start_in_background_util import (
-    cleanup_background_processes,
-    start_in_background,
-)
 from .validate_password_util import validate_password
 
 __all__ = [
@@ -23,11 +19,9 @@ __all__ = [
     "json_param",
     "get_session",
     "validate_password",
-    "start_in_background",
     "get_connection_channel",
     "init_database_connection",
     "cleanup_database_connection",
-    "cleanup_background_processes",
     "USER_CREATED_QUEUE",
     "USER_UPDATED_QUEUE",
 ]

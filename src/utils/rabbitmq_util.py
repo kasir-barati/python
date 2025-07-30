@@ -1,7 +1,7 @@
 from functools import lru_cache
 
-from pika import BlockingConnection, URLParameters
-from pika.adapters.blocking_connection import BlockingChannel
+from aio_pika import connect_robust
+from aio_pika.abc import AbstractChannel, AbstractRobustConnection
 
 from .config import Settings
 
@@ -15,19 +15,14 @@ def get_settings() -> Settings:
     return Settings()
 
 
-def get_connection_channel(
-    queues: list[str] | None = None,
-) -> tuple[BlockingConnection, BlockingChannel]:
+async def get_connection_channel() -> (
+    tuple[AbstractRobustConnection, AbstractChannel]
+):
     """
     This will return the channel and connection. Optionally you can pass your queues to register them.
     """
     settings = get_settings()
-    params = URLParameters(settings.rabbitmq_uri)
-    connection = BlockingConnection(params)
-    channel = connection.channel()
-
-    if queues is not None:
-        for queue in queues:
-            channel.queue_declare(queue)
+    connection = await connect_robust(settings.rabbitmq_uri)
+    channel = await connection.channel()
 
     return (connection, channel)
