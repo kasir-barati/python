@@ -2,7 +2,6 @@
 
 1. `cp .env.example .env`.
 2. `docker compose up -d`.
-3. `fastapi dev src/main.py`
 
 # FastAPI
 

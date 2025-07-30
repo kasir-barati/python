@@ -2,29 +2,24 @@ services:
   app:
     build: 
       context: .
+      target: dev
     env_file:
       - .env
     ports:
       - 8000:$APP_PORT
-    command:
-      [
-        "uvicorn",
-        "src.main:app",
-        "--host",
-        "0.0.0.0",
-        "--port",
-        "$APP_PORT",
-        "--reload",
-        "--log-level",
-        "debug",
-      ]
+    volumes:
+      - ./src:/app/src
+      - ./Makefile:/app/Makefile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   rabbitmq:
     image: rabbitmq:3.9.20-management-alpine
     env_file:
       - .env
-    ports:
-      - $PGADMIN_EXPOSED_PORT:15672
     restart: always
     healthcheck:
       test: python3 -c "import urllib.request, sys; sys.exit(urllib.request.urlopen('http://localhost:15672').status != 200)"
