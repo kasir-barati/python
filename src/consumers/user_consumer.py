@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 from functools import lru_cache
 
 from aio_pika.abc import AbstractIncomingMessage
@@ -13,6 +14,8 @@ from ..utils import (
     get_session,
 )
 
+logger = logging.getLogger("uvicorn")
+
 
 # Cached the env variables to prevent reading it from FS over and over.
 @lru_cache
@@ -23,7 +26,7 @@ def get_settings() -> Settings:
 async def user_created_handler(
     message: AbstractIncomingMessage,
 ) -> None:
-    print("Creating new user...")
+    logger.info("Creating new user...")
     created_user = json.loads(message.body.decode())
     session = get_session()
     user = User(**created_user)
@@ -43,12 +46,12 @@ async def user_updated_handler(
     )
 
     if user is None:
-        print(
+        logger.warning(
             f"Could not find the user (user ID: {updated_user['id']})!"
         )
         return
 
-    print("Updating the user...")
+    logger.info("Updating the user...")
     user.name = updated_user["name"]
     user.email = updated_user["email"]
     user.password = updated_user["password"]
@@ -57,7 +60,7 @@ async def user_updated_handler(
 
 
 async def start_user_consumers():
-    print("Start consuming user events!")
+    logger.info("Start consuming user events!")
 
     settings = get_settings()
     loop = asyncio.get_running_loop()
@@ -78,5 +81,3 @@ async def start_user_consumers():
     loop.create_task(
         user_updated_queue.consume(user_updated_handler, no_ack=True)
     )
-
-    asyncio.sleep(2)

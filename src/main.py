@@ -27,9 +27,9 @@ async def lifespan(
     _app: FastAPI,
 ) -> AsyncGenerator[Any, Any]:
     logger.info("Bootstrapping...")
+    loop = asyncio.get_running_loop()
     init_database_connection()
-    asyncio.run(start_user_consumers())
-    logger.info("2" * 80)
+    loop.create_task(start_user_consumers())
     yield
     logger.info("Cleaning up...")
     cleanup_database_connection()
