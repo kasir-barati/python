@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_name: str = r"/\/\y @P!"
     rabbitmq_uri: str
     postgres_uri: str
+    prefetch_count: int = 1
 
     # This is how you can shorten the env variable name
     # some_var: str = Field(alias="some_env_var")
