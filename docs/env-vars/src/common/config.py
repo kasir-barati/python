@@ -28,7 +28,7 @@ def read_file(path: str) -> str:
         return f.read().strip()
 
 class RedisSettings(BaseSettings):
-    plain_url: str = Field(alias="url")
+    plain_url: RedisDsn = Field(alias="url")
     username: Optional[str] = Field(alias="username_file")
     password: Optional[str] = Field(alias="password_file")
 
@@ -50,12 +50,14 @@ class RedisSettings(BaseSettings):
     
     @property
     def url(self) -> str:
+        stringified_url = str(self.plain_url)
+
         if self.username and self.password:
             return attach_credentials_to_url(
-                self.plain_url, self.username, self.password
+                stringified_url, self.username, self.password
             )
 
-        return self.plain_url
+        return stringified_url
 
 class Settings(BaseSettings):
     env: Env = Field(default="dev", alias="env")
