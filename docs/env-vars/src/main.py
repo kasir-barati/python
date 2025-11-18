@@ -9,4 +9,5 @@ def get_settings() -> Settings:
 settings = get_settings()
 
 print(settings.env)
+print(settings.redis.url)
 print(settings.rabbitmq_uri)

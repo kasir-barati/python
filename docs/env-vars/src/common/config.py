@@ -1,7 +1,7 @@
 from typing import Literal, Optional, TypeAlias
 from urllib.parse import quote_plus, urlparse, urlunparse
-from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings
+from pydantic import Field, RedisDsn, ValidationInfo, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 Env: TypeAlias = Literal["dev", "prod", "test"]
 
@@ -27,15 +27,48 @@ def read_file(path: str) -> str:
     with open(path, "r") as f:
         return f.read().strip()
 
+class RedisSettings(BaseSettings):
+    plain_url: str = Field(alias="url")
+    username: Optional[str] = Field(alias="username_file")
+    password: Optional[str] = Field(alias="password_file")
+
+    @field_validator("username")
+    @classmethod
+    def load_username(cls, filename: str, validation_info: ValidationInfo):
+        if not filename:
+            return
+        
+        return read_from_secrets(filename)
+
+    @field_validator("password")
+    @classmethod
+    def load_password(cls, filename: str):
+        if not filename:
+            return
+        
+        return read_from_secrets(filename)
+    
+    @property
+    def url(self) -> str:
+        if self.username and self.password:
+            return attach_credentials_to_url(
+                self.plain_url, self.username, self.password
+            )
+
+        return self.plain_url
+
 class Settings(BaseSettings):
     env: Env = Field(default="dev", alias="env")
     plain_rabbitmq_uri: str = Field(alias="rabbitmq_uri")
     rabbitmq_username: Optional[str] = Field(alias="rabbitmq_username_file")
     rabbitmq_password: Optional[str] = Field(alias="rabbitmq_password_file")
+    redis: RedisSettings
+
+    model_config = SettingsConfigDict(env_nested_delimiter='__')
 
     @field_validator("rabbitmq_username")
     @classmethod
-    def load_username(cls, filename: str):
+    def load_username(cls, filename: str, validation_info: ValidationInfo):
         if not filename:
             return
         

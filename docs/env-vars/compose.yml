@@ -6,14 +6,23 @@ services:
       - RABBITMQ_USERNAME_FILE=v1_rabbitmq_user
       - RABBITMQ_PASSWORD_FILE=v1_rabbitmq_pass
       - ENV=dev
+      - REDIS__URL=redis://redis:6379/
+      - REDIS__USERNAME_FILE=v1_redis_user
+      - REDIS__PASSWORD_FILE=v1_redis_pass
     volumes:
       - ./src:/app/src:ro
     secrets:
       - v1_rabbitmq_user
       - v1_rabbitmq_pass
-    
+      - v1_redis_user
+      - v1_redis_pass
+
 secrets:
   v1_rabbitmq_user:
     file: ./secrets/v1_rabbitmq_user
   v1_rabbitmq_pass:
     file: ./secrets/v1_rabbitmq_pass
+  v1_redis_user:
+    file: ./secrets/v1_redis_user
+  v1_redis_pass:
+    file: ./secrets/v1_redis_pass

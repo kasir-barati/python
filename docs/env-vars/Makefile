@@ -15,11 +15,14 @@ venv: requirements.dev.txt
 	. .venv/bin/activate
 
 init:
-    mkdir -p secrets
+	mkdir -p secrets
 	echo "someuser" > secrets/v1_rabbitmq_user
 	echo "somepassword" > secrets/v1_rabbitmq_pass
+	echo "someuser" > secrets/v1_redis_user
+	echo "somepassword" > secrets/v1_redis_pass
 
 clean:
+	rm -rf secrets
 	rm -rf $(VENV_PATH)
 
 test:
