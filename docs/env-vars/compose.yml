@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    environment:
+      - RABBITMQ_URI=amqp://rabbitmq:5672/
+      - RABBITMQ_USERNAME_FILE=v1_rabbitmq_user
+      - RABBITMQ_PASSWORD_FILE=v1_rabbitmq_pass
+      - ENV=dev
+    volumes:
+      - ./src:/app/src:ro
+    secrets:
+      - v1_rabbitmq_user
+      - v1_rabbitmq_pass
+    
+secrets:
+  v1_rabbitmq_user:
+    file: ./secrets/v1_rabbitmq_user
+  v1_rabbitmq_pass:
+    file: ./secrets/v1_rabbitmq_pass
