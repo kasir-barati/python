@@ -1,5 +1,6 @@
 # Docs
 
+- [Environment variables](./env-vars/README.md).
 - [RabbitMQ](./rabbitmq/README.md).
 - [Pylint](./pylint.md).
 - Machine learning books:

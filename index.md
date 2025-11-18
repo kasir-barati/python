@@ -34,7 +34,6 @@
 8. [Date & time in Python](./08-date/README.md)
 9. [Generators](./09-generators/README.md).
 
-# Docs
+# [Docs](./docs/README.md)
 
-- [Tips](./tips/README.md).
-- [AI roadmap](./docs/roadmaps/AI.md).
+# [Tips](./tips/README.md)
