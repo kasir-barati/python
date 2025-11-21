@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Development runner that handles hot reload signals gracefully."""
 import sys
 import signal
