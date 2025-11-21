@@ -1,6 +1,7 @@
 # Docs
 
 - [Environment variables](./env-vars/README.md).
+- [Hot reloading a Python script](./hot-reload/README.md).
 - [RabbitMQ](./rabbitmq/README.md).
 - [Pylint](./pylint.md).
 - Machine learning books:
