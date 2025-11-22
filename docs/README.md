@@ -4,6 +4,7 @@
 - [Hot reloading a Python script](./hot-reload/README.md).
 - [RabbitMQ](./rabbitmq/README.md).
 - [Unit test](./unit-testing/README.md)
+- [Git hooks](./git-hooks/README.md)
 - [Pylint](./pylint.md).
 - Machine learning books:
   - [Hands-On machine learning with Keras and Tensorflow](https://github.com/ageron/handson-ml2).
