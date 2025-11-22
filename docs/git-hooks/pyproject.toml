@@ -1,0 +1,16 @@
+[tool.pyright]
+include = ["src"]
+exclude = ["**/__pycache__", ".venv"]
+venvPath = ".venv"
+typeCheckingMode = "basic"
+reportUndefinedVariable = "error"
+
+[tool.ruff]
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["I"] # Enable isort rules
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+lines-after-imports = 2

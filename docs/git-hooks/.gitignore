@@ -1,0 +1,31 @@
+# IDE project files
+.idea
+.project
+
+# PyTorch model data
+**/*.pth
+**/*.pkl
+logs
+
+# Cache files
+**/__pycache__
+
+# Virtual environment
+.venv
+
+# Other files and folders
+output
+wandb
+.ipynb_checkpoints
+/.pydevproject
+**/*.svg
+/.pydevproject.bak
+/model
+/data
+.aider*
+test_results
+test_results_1
+.cache
+image_folder
+secrets
+logs
