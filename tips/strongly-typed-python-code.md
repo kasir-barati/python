@@ -3,6 +3,45 @@
 I love to have types, because they gimme a sense of what the heck am I doing and what I should not probably do :grin:.
 
 <details>
+<summary>Docstring for class properties</summary>
+
+```py
+class Session:
+    """
+    A session stores configuration state and allows you to create service
+    clients and resources.
+
+    :type aws_access_key_id: string
+    :param aws_access_key_id: AWS access key ID
+    :type aws_secret_access_key: string
+    :param aws_secret_access_key: AWS secret access key
+    :type aws_session_token: string
+    :param aws_session_token: AWS temporary session token
+    :type region_name: string
+    :param region_name: Default region when creating new connections
+    :type botocore_session: botocore.session.Session
+    :param botocore_session: Use this Botocore session instead of creating
+                             a new default one.
+    :type profile_name: string
+    :param profile_name: The name of a profile to use. If not given, then
+                         the default profile is used.
+    """
+
+    def __init__(
+        self,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        aws_session_token=None,
+        region_name=None,
+        botocore_session=None,
+        profile_name=None,
+    ):
+        pass
+```
+
+</details>
+
+<details>
 <summary>How to define an interface which will accept any class as long as it has field x of type y?</summary>
 
 ```py
