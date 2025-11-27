@@ -29,6 +29,6 @@ grpc_gen:
 
 test:
 	[ -d .venv ] && . .venv/bin/activate || true
-	pytest tests
+	pytest tests -v -s
 
 .PHONY: venv init grpc_gen

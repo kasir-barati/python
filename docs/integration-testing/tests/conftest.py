@@ -9,12 +9,15 @@ from pathlib import Path
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-# Automatically discover all fixture files
+# Automatically discover all fixture files recursively
 fixture_files = []
 tests_dir = Path(__file__).parent  # Gets the tests/ directory
-for file in tests_dir.glob("*_fixture.py"):
+for file in tests_dir.rglob("*_fixture.py"):  # rglob for recursive search
     if file.name != "__init__.py":
-        fixture_files.append(file.stem)  # Get filename without extension
+        # Convert path to module notation (e.g., whatever.whatever_fixture)
+        relative_path = file.relative_to(tests_dir)
+        module_path = str(relative_path.with_suffix("")).replace("/", ".")
+        fixture_files.append(module_path)
 
 # Register the fixture module so pytest can discover fixtures
 pytest_plugins = fixture_files

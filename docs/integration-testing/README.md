@@ -1,1 +1,14 @@
 # Integration Testing
+
+## Fixtures
+
+I am auto loading all fixtures here to make adding new fixtures easier, but keeep in mind that your fixture file name should be like: `*_fixture.py`.
+
+### Fixture Loading and Execution Timing
+
+Fixtures are **NOT** loaded at the beginning and cached forever. Fixtures in pytest have scope and lifecycle:
+
+- `function` scope (default): Created/destroyed for each test function.
+- `class` scope: Created once per test class.
+- `module` scope: Created once per test file.
+- `session` scope: Created once per entire test session.
