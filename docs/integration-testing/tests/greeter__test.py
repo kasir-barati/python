@@ -28,5 +28,7 @@ def grpc_server():
 def test_grpc_client(grpc_server):
     channel = grpc.insecure_channel(grpc_server)
     stub = GreeterStub(channel)
+
     response = stub.SayHello(HelloRequest(name="pytest"))
+
     assert response.message == "Hello, pytest!"
