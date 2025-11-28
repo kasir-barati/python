@@ -4,9 +4,7 @@
 - [Hot reloading a Python script](./hot-reload/README.md).
 - [RabbitMQ](./rabbitmq/README.md).
 - [Unit test](./unit-testing/README.md)
-- Integration testing:
-  - [Mock gRPC API](./integration-testing/mock-grpc-api/README.md).
-  - [Mock RabbitMQ with Testcontainers](./integration-testing/rabbitmq-testcontainers/README.md).
+- [Integration testing](./integration-testing/README.md):
 - [Git hooks](./git-hooks/README.md)
 - [Pylint](./pylint.md).
 - Machine learning books:
