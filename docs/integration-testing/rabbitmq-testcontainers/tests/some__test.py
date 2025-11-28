@@ -1,7 +1,7 @@
 import asyncio
 import io
 from contextlib import redirect_stdout
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import MonkeyPatch
 from tests.services.rabbitmq_service import RabbitmqService
 
 
