@@ -5,8 +5,8 @@
 - [RabbitMQ](./rabbitmq/README.md).
 - [Unit test](./unit-testing/README.md)
 - Integration testing:
-  - [Mock gRPC API](./mock-grpc-api-integration-testing/README.md).
-  - [Mock RabbitMQ with Testcontainers](./rabbitmq-testcontainers-integration-testing/README.md).
+  - [Mock gRPC API](./integration-testing/mock-grpc-api/README.md).
+  - [Mock RabbitMQ with Testcontainers](./integration-testing/rabbitmq-testcontainers/README.md).
 - [Git hooks](./git-hooks/README.md)
 - [Pylint](./pylint.md).
 - Machine learning books:
