@@ -2,6 +2,12 @@
 
 Here is how you might wanna mock a gRPC API.
 
+## How to Start it
+
+1. `cd python/docs/integration-testing/mock-grpc-api`.
+2. `make init`.
+3. `make test`.
+
 ## Fixtures
 
 I am auto loading all fixtures here to make adding new fixtures easier, but keeep in mind that your fixture file name should be like: `*_fixture.py`.
