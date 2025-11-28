@@ -1,4 +1,6 @@
-# Integration Testing
+# Mock gRPC API -- Integration Testing
+
+Here is how you might wanna mock a gRPC API.
 
 ## Fixtures
 
