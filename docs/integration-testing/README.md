@@ -11,6 +11,10 @@
       assert foo == 123
   ```
 
-## [Mock gRPC API](./integration-testing/mock-grpc-api/README.md).
+## [Mock gRPC API](./mock-grpc-api/README.md).
 
-## [Mock RabbitMQ with Testcontainers](./integration-testing/rabbitmq-testcontainers/README.md).
+## [Testcontainers](https://testcontainers.com/)
+
+### [Mock RabbitMQ](./rabbitmq-testcontainers/README.md).
+
+### [Mocked RESTful API + RabbitMQ](./wiremock-and-rabbitmq-testcontainers/README.md)
