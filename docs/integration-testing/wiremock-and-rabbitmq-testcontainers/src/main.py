@@ -39,7 +39,7 @@ async def main() -> None:
                     decoded_message = json.loads(message.body.decode())
                     requests.post(
                         decoded_message["callbackUrl"],
-                        data={"message": f"Hi {decoded_message['name']}"},
+                        json={"message": f"Hi {decoded_message['name']}"},
                         timeout=5,
                     )
 
