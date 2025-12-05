@@ -1,6 +1,7 @@
 import os
 import asyncio
 import logging
+import json
 import requests
 
 from aio_pika import connect_robust
@@ -35,10 +36,10 @@ async def main() -> None:
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:
                 async with message.process():
-                    decoded_message = message.body.decode()
+                    decoded_message = json.loads(message.body.decode())
                     requests.post(
                         decoded_message["callbackUrl"],
-                        data={"message": f"Hi {decoded_message['name']}!"},
+                        data={"message": f"Hi {decoded_message['name']}"},
                         timeout=5,
                     )
 
