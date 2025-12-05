@@ -1,6 +1,9 @@
 # Mock gRPC API -- Integration Testing
 
-Here is how you might wanna mock a gRPC API.
+Here is how you might wanna mock a gRPC API, e.g. I mocked:
+
+- A unary RPC, i.e. the `SayHello` API.
+- A duplex stream (Bidirectional streaming RPC) which I called it `Upload`.
 
 ## How to Start it
 
