@@ -11,7 +11,7 @@ import httpx
 @pytest_asyncio.fixture(scope="function")
 async def rabbitmq_container() -> AsyncGenerator[RabbitMqContainer, None]:
     """
-    Session-scoped fixture that provides a RabbitMQ container for all tests.
+    A RabbitMQ container for all tests.
     """
     container = RabbitMqContainer("rabbitmq:3.13.4-alpine")
     container.start()
@@ -27,7 +27,7 @@ async def rabbitmq_service(
     rabbitmq_container: RabbitMqContainer,
 ) -> AsyncGenerator[RabbitmqService, None]:
     """
-    Function-scoped fixture that provides a RabbitMQ service instance.
+    A RabbitMQ service instance.
     """
     host = rabbitmq_container.get_container_host_ip()
     port = rabbitmq_container.get_exposed_port(5672)
@@ -45,9 +45,9 @@ async def rabbitmq_service(
 
 
 @pytest_asyncio.fixture(scope="function")
-async def auth_service_container() -> AsyncGenerator[str, None]:
+async def payment_service_container() -> AsyncGenerator[str, None]:
     """
-    Function-scoped fixture that provides a WireMock container for mocking Auth Service.
+    A WireMock container for mocking Payment Service.
     Returns the base URL of the WireMock server.
     """
     # Create WireMock container
@@ -85,13 +85,13 @@ async def auth_service_container() -> AsyncGenerator[str, None]:
 
 
 @pytest_asyncio.fixture(scope="function")
-async def auth_service(
-    auth_service_container: str,
+async def payment_service(
+    payment_service_container: str,
 ) -> AsyncGenerator[PaymentService, None]:
     """
     Function-scoped fixture that provides a configured WireMock service.
     """
-    service = PaymentService(auth_service_container)
+    service = PaymentService(payment_service_container)
 
     await service.reset()
     await service.mock_callback_api()

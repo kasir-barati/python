@@ -10,7 +10,7 @@ class TestRabbitMQIntegration:
     async def test_publish_and_consume_single_message(
         self,
         rabbitmq_service: RabbitmqService,
-        auth_service: PaymentService,
+        payment_service: PaymentService,
         monkeypatch: pytest.MonkeyPatch,
     ):
         exchange = await rabbitmq_service.declare_exchange("test_exchange", "direct")
@@ -21,7 +21,7 @@ class TestRabbitMQIntegration:
             "test_routing_key",
             {
                 "name": "Integration Test",
-                "callbackUrl": f"{auth_service.base_url}{auth_service.path_prefix}/callback",
+                "callbackUrl": f"{payment_service.base_url}{payment_service.path_prefix}/callback",
             },
         )
         monkeypatch.setenv("RABBITMQ_URL", rabbitmq_service.connection_url)
@@ -34,7 +34,7 @@ class TestRabbitMQIntegration:
         except asyncio.TimeoutError:
             pass
 
-        callback_calls = await auth_service.get_callback_requests()
+        callback_calls = await payment_service.get_callback_requests()
         assert (
             json.loads(callback_calls[0].get("request").get("body")).get("message")
             == "Hi Integration Test"
