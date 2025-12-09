@@ -1,3 +1,76 @@
+# Things that does NOT work
+
+The following are my failed attempts to get Python to act more intelligently. But none worked 😔.
+
+<details>
+<summary>Getting IntelliSense in your IDE by writing Docstring, or using Pydantic lib</summary>
+
+```py
+from pydantic import BaseModel, Field
+from typing import Annotated, Optional
+
+class Person(BaseModel):
+    """A person with contact information.
+
+    Attributes:
+        name: Full name of the person.
+        email: Email address.
+        age: Age in years.
+    """
+    name: str = Field(..., description="Full name. Example: Alice Johnson")
+    email: str = Field(..., description="Email address. Example: alice@example.com")
+    age: Optional[int] = None
+
+
+class Person(BaseModel):
+    """
+    A person with contact information.
+
+    Attributes:
+        name (str): Full name of the person.
+        email (str): Email address of the person.
+        age (Optional[int]): Age in years. Must be between 0 and 150.
+    """
+
+    name: str
+    email: str
+    age: Optional[int] = None
+
+class Person(BaseModel):
+    """
+    A person with contact information.
+    """
+
+    name: Annotated[str, "Fullname of the person. Examples: Alice Johnson, Bob Lee"]
+    email: Annotated[str, "Email address. Must be valid format. Examples: john@example.com"]
+    age: Optional[int] = Field(None)
+
+class Person(BaseModel):
+    """
+    A person with contact information.
+    """
+
+    name: str = Field(
+        description="Full name of the person.",
+        examples=["Alice Johnson", "Bob Lee"]
+    )
+    email: str = Field(
+        description="Email address. Must be valid format.",
+        examples=["john@example.com"]
+    )
+    age: Optional[int] = Field(
+        None,
+        description="Age in years. Must be between 0 and 150.",
+        examples=[25]
+    )
+
+person = Person(name="Test", email="test@example.com", age=30)
+
+print(person.name)
+```
+
+</details>
+
 # Type Hinting Techniques in Python
 
 I love to have types, because they gimme a sense of what the heck am I doing and what I should not probably do :grin:.
