@@ -76,6 +76,23 @@ print(person.name)
 I love to have types, because they gimme a sense of what the heck am I doing and what I should not probably do :grin:.
 
 <details>
+<summary>Creating type aliases with <code>Literal</code> values for better type safety, and still you an pass other strings that were not listed in the <code>Literal</code></summary>
+
+```py
+from typing import TypeAlias, Literal
+
+
+Role: TypeAlias = Literal["admin", "guest", "moderator"] | str
+
+def some_func(role: Role):
+    pass
+
+some_func("")
+```
+
+</details>
+
+<details>
 <summary>Docstring for class properties</summary>
 
 ```py
