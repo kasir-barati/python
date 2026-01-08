@@ -262,3 +262,37 @@ Testing in software engineering is the process where you automate testing your c
 ## Ref
 
 - [8. Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html).
+
+# Tips About `try...except...finally`
+
+<table>
+<thead><tr><th>Code</th><th>Output</th></tr>
+<tbody><tr><td>
+
+```py
+try:
+    print("first try")
+
+    try:
+        print("second try")
+        res = 1 / 0
+    finally:
+        print("second finally")
+
+except:
+    print("except block")
+finally:
+    print("first finally")
+```
+
+</td><td>
+
+```cmd
+first try
+second try
+second finally
+except block
+first finally
+```
+
+</td></tr>
