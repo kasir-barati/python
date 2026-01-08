@@ -295,4 +295,34 @@ except block
 first finally
 ```
 
+<tr><td>
+
+```py
+try:
+    print("first try")
+
+    try:
+        res = 1 / 0
+        print(f"{res=}")
+    finally:
+        print("second finally")
+
+    print("Won't reach here") # It won't log this since we are not catching the exception
+except:
+    print("first exception")
+finally:
+    print("first finally")
+```
+
+</td><td>
+
+```cmd
+first try
+second finally
+first exception
+first finally
+```
+
+<tr><td>
+
 </td></tr>
