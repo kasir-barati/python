@@ -1,0 +1,49 @@
+# IDE project files
+.idea
+.project
+
+# PyTorch model data
+**/*.pth
+**/*.pkl
+logs
+
+# Cache files
+**/__pycache__
+
+# Virtual environment
+.venv
+
+# Other files and folders
+.env
+output
+wandb
+.ipynb_checkpoints
+/.pydevproject
+**/*.svg
+/.pydevproject.bak
+/model
+/data
+.aider*
+.cache
+image_folder
+secrets
+logs
+src/proto/stubs
+
+# Tests
+tests/face_blurring/temp*
+test_results
+test_results_1
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/

@@ -2,7 +2,9 @@
 
 - [Environment variables](./env-vars/README.md).
 - [Hot reloading a Python script](./hot-reload/README.md).
-- [RabbitMQ](./rabbitmq/README.md).
+- RabbitMQ:
+  - [Intro](./rabbitmq/README.md).
+  - [Batch processing](./rabbitmq-batch-processing/README.md).
 - [Test Driven Development](./TDD/README.md)
 - [Integration testing](./integration-testing/README.md):
 - [Git hooks](./git-hooks/README.md)

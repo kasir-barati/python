@@ -1,0 +1,18 @@
+[tool.pyright]
+include = ["src"]
+exclude = ["**/__pycache__", ".venv", "src/proto/stubs", "cicd/templates"]
+venvPath = ".venv"
+typeCheckingMode = "basic"
+reportUndefinedVariable = "error"
+
+[tool.ruff]
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["I"]                              # Enable isort rules
+per-file-ignores = { "tests/*" = ["E722"] }
+
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+lines-after-imports = 2

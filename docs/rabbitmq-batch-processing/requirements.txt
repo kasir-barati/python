@@ -1,0 +1,4 @@
+aio-pika==9.4.3
+pydantic==2.10.5
+pydantic-settings==2.7.1
+python-json-logger==2.0.7
