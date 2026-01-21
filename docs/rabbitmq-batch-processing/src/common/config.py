@@ -16,7 +16,6 @@ class Rabbitmq(BaseSettings):
     password: str = Field(default="guest")
     vhost: str = Field(default="/")
     prefetch_count: int = Field(default=10, ge=1, le=100)
-    batch_size: int = Field(default=10, ge=1, le=100)
     max_workers: int = Field(
         default=4, description="Number of threads for parallel batch processing"
     )

@@ -5,7 +5,13 @@ from functools import lru_cache
 from common.config import Settings
 from common.logger import get_logger
 from common.rabbitmq_handler import RabbitmqHandler, RabbitmqHeaders
-from constants.events import EXCHANGE_NAME, EXCHANGE_TYPE, QUEUE_NAME, ROUTING_KEY
+from constants.events import (
+    BATCH_SIZE,
+    EXCHANGE_NAME,
+    EXCHANGE_TYPE,
+    QUEUE_NAME,
+    ROUTING_KEY,
+)
 from interfaces.message import GreetMessage
 
 
@@ -19,14 +25,16 @@ logger = get_logger(__name__)
 
 
 def process_message(message: GreetMessage, headers: RabbitmqHeaders) -> None:
+    correlation_id = headers.get("correlation-id")
     try:
-        correlation_id = headers.get("correlation-id")
         logger.info(
             f"📨 Processing message: {message['message']}",
             extra={"correlation_id": correlation_id},
         )
     except Exception as e:
-        logger.error(f"Error processing message: {e}")
+        logger.error(
+            f"Error processing message: {e}", extra={"correlation_id": correlation_id}
+        )
         raise
 
 
@@ -34,7 +42,7 @@ async def main():
     logger.info("Starting RabbitMQ Consumer Application")
     logger.info(
         f"Configuration: Exchange={EXCHANGE_NAME}, Queue={QUEUE_NAME}, "
-        f"RoutingKey={ROUTING_KEY}, BatchSize={settings.rabbitmq.batch_size}, "
+        f"RoutingKey={ROUTING_KEY}, BatchSize={BATCH_SIZE}, "
         f"PrefetchCount={settings.rabbitmq.prefetch_count}"
     )
 

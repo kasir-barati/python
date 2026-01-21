@@ -15,6 +15,7 @@ from aio_pika.abc import (
 )
 
 from common.logger import get_logger
+from constants.events import BATCH_SIZE
 
 from .config import Settings
 
@@ -167,7 +168,7 @@ class RabbitmqHandler:
             )
 
             # Process batch when it reaches the configured size
-            if len(self.__message_batch) >= settings.rabbitmq.batch_size:
+            if len(self.__message_batch) >= BATCH_SIZE:
                 batch_to_process = self.__message_batch.copy()
                 self.__message_batch.clear()
 

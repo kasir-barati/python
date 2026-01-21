@@ -32,7 +32,7 @@ A Python application that consumes messages from a RabbitMQ topic exchange with 
 
 ## RabbitmqHandler class
 
-1. **Message Collection**: Messages are collected into a batch until `BATCH_SIZE` is reached.
+1. **Message Collection**: Messages are collected into a batch.
 2. **Parallel Processing**: Each batch is processed in a separate thread from the `ThreadPoolExecutor`.
 3. **Individual Processing**: The callback function is called for each message in the batch.
 4. **Error Handling**: If a message fails, we continue processing next messages.
