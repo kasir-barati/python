@@ -4,7 +4,7 @@ import asyncio
 import json
 from concurrent.futures import ThreadPoolExecutor
 from functools import lru_cache
-from typing import Any, Callable, List, TypedDict, cast
+from typing import Any, Callable, Generic, List, TypedDict, TypeVar, cast, overload
 
 from aio_pika import ExchangeType, connect_robust
 from aio_pika.abc import (
@@ -15,7 +15,6 @@ from aio_pika.abc import (
 )
 
 from common.logger import get_logger
-from constants.events import BATCH_SIZE
 
 from .config import Settings
 
@@ -28,26 +27,75 @@ def get_settings() -> Settings:
 settings = get_settings()
 logger = get_logger(__name__)
 
-
+TMessage = TypeVar("TMessage")
 RabbitmqHeaders = TypedDict("RabbitmqHeaders", {"correlation-id": str | None})
 
 
-class RabbitmqHandler:
-    """Handler for RabbitMQ message consumption"""
+class BatchCallbackParams(Generic[TMessage]):
+    """Parameters passed to batch callback"""
 
+    def __init__(self, message: TMessage, headers: RabbitmqHeaders) -> None:
+        self.message = message
+        self.headers = headers
+
+    # Support dict-like access
+    def __getitem__(self, key: str) -> Any:
+        if key == "message":
+            return self.message
+        elif key == "headers":
+            return self.headers
+        raise KeyError(key)
+
+
+class RabbitmqHandler(Generic[TMessage]):
+    """
+    Handler for RabbitMQ message consumption
+    """
+
+    @overload
     def __init__(
         self,
-        callback: Callable[[dict[str, Any], RabbitmqHeaders], None],
+        callback: Callable[[TMessage, RabbitmqHeaders], None],
         exchange_name: str,
         exchange_type: str,
         queue_name: str,
         routing_key: str,
+        batch_size: None = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(
+        self,
+        callback: Callable[[list[BatchCallbackParams[TMessage]]], None],
+        exchange_name: str,
+        exchange_type: str,
+        queue_name: str,
+        routing_key: str,
+        batch_size: int,
+    ) -> None: ...
+
+    def __init__(
+        self,
+        callback: Callable[[TMessage, RabbitmqHeaders], None]
+        | Callable[[list[BatchCallbackParams[TMessage]]], None],
+        exchange_name: str,
+        exchange_type: str,
+        queue_name: str,
+        routing_key: str,
+        batch_size: int | None = None,
     ):
+        if batch_size is not None and batch_size < 2:
+            logger.error(
+                "For single message mode set batch_size to None or skip it entirely"
+            )
+            raise ValueError("batch_size must be greater than 1")
+
         self.__callback = callback
         self.__exchange_name = exchange_name
         self.__exchange_type = exchange_type
         self.__queue_name = queue_name
         self.__routing_key = routing_key
+        self.__batch_size = batch_size
         self.__connection: AbstractRobustConnection | None = None
         self.__channel: AbstractChannel | None = None
         self.__queue: AbstractQueue | None = None
@@ -97,6 +145,47 @@ class RabbitmqHandler:
             logger.error(f"Failed to connect to RabbitMQ: {e}")
             raise
 
+    async def _process_single_message(self, message: AbstractIncomingMessage) -> None:
+        logger.debug("Processing single message")
+
+        # Process message in thread pool to avoid blocking the event loop
+        loop = asyncio.get_event_loop()
+        success = await loop.run_in_executor(
+            self.__executor, self._process_single_message_sync, message
+        )
+
+        try:
+            if success:
+                await message.ack()
+                logger.debug("Message acknowledged")
+            else:
+                await message.nack(requeue=False)
+                logger.warning("Message nacked")
+        except Exception as e:
+            logger.error(f"Failed to acknowledge/nack message: {e}")
+
+    def _process_single_message_sync(self, message: AbstractIncomingMessage) -> bool:
+        """
+        Returns:
+            `True` if processing succeeded, `False` otherwise
+        """
+        try:
+            headers = cast(
+                RabbitmqHeaders,
+                {k: str(v) for k, v in message.headers.items()}
+                if message.headers
+                else {},
+            )
+            msg = json.loads(message.body.decode("utf-8"))
+            self.__callback(msg, headers)  # type: ignore[arg-type]
+            return True
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse message body as JSON: {e}")
+            return False
+        except Exception as e:
+            logger.error(f"Failed to process message: {e}")
+            return False
+
     async def process_batch(self, batch: List[AbstractIncomingMessage]) -> None:
         """
         Process a batch of messages in a separate thread
@@ -135,7 +224,9 @@ class RabbitmqHandler:
             A set of indices for messages that failed processing
         """
         failed_indices = set()
+        batch_params: list[BatchCallbackParams[TMessage]] = []
 
+        # Parse all messages in the batch
         for idx, message in enumerate(batch):
             try:
                 headers = cast(
@@ -145,7 +236,7 @@ class RabbitmqHandler:
                     else {},
                 )
                 msg = json.loads(message.body.decode("utf-8"))
-                self.__callback(msg, headers)
+                batch_params.append(BatchCallbackParams(message=msg, headers=headers))
             except json.JSONDecodeError as e:
                 logger.error(
                     f"Failed to parse message body as JSON {idx + 1}/{len(batch)}: {e}"
@@ -155,12 +246,21 @@ class RabbitmqHandler:
                 logger.error(f"Failed to process message {idx + 1}/{len(batch)}: {e}")
                 failed_indices.add(idx)
 
+        if batch_params:
+            try:
+                self.__callback(batch_params)  # type: ignore[arg-type]
+            except Exception as e:
+                logger.error(f"Batch callback failed: {e}")
+                # Mark all messages in batch as failed
+                failed_indices.update(range(len(batch)))
+
         return failed_indices
 
     async def _on_message(self, message: AbstractIncomingMessage) -> None:
-        """
-        Callback for incoming messages - collects messages into batches
-        """
+        if self.__batch_size is None:
+            await self._process_single_message(message)
+            return
+
         async with self.__batch_lock:
             self.__message_batch.append(message)
             logger.debug(
@@ -168,7 +268,7 @@ class RabbitmqHandler:
             )
 
             # Process batch when it reaches the configured size
-            if len(self.__message_batch) >= BATCH_SIZE:
+            if len(self.__message_batch) >= self.__batch_size:
                 batch_to_process = self.__message_batch.copy()
                 self.__message_batch.clear()
 
@@ -192,16 +292,15 @@ class RabbitmqHandler:
             while self.__is_running:
                 await asyncio.sleep(1)
 
-                # Process any remaining messages in batch periodically
-                async with self.__batch_lock:
-                    if self.__message_batch:
-                        logger.info(
-                            f"Processing remaining batch of {len(self.__message_batch)} messages"
-                        )
-                        batch_to_process = self.__message_batch.copy()
-                        self.__message_batch.clear()
-                        asyncio.create_task(self.process_batch(batch_to_process))
-
+                if self.__batch_size is not None:
+                    async with self.__batch_lock:
+                        if self.__message_batch:
+                            logger.info(
+                                f"Processing remaining batch of {len(self.__message_batch)} messages"
+                            )
+                            batch_to_process = self.__message_batch.copy()
+                            self.__message_batch.clear()
+                            asyncio.create_task(self.process_batch(batch_to_process))
         except asyncio.CancelledError:
             logger.info("Consumer cancelled")
         except Exception as e:
@@ -213,14 +312,14 @@ class RabbitmqHandler:
         logger.info("Closing RabbitMQ handler...")
         self.__is_running = False
 
-        # Process any remaining messages in the batch
-        async with self.__batch_lock:
-            if self.__message_batch:
-                logger.info(
-                    f"Processing final batch of {len(self.__message_batch)} messages"
-                )
-                await self.process_batch(self.__message_batch)
-                self.__message_batch.clear()
+        if self.__batch_size is not None:
+            async with self.__batch_lock:
+                if self.__message_batch:
+                    logger.info(
+                        f"Processing final batch of {len(self.__message_batch)} messages"
+                    )
+                    await self.process_batch(self.__message_batch)
+                    self.__message_batch.clear()
 
         # Shutdown thread pool
         self.__executor.shutdown(wait=True)

@@ -24,6 +24,8 @@ init: venv
 	rm .env 2>/dev/null || true
 	cp .env.example .env
 	@echo "✅ .env created."
+	. $(VENV_PATH)/bin/activate
+	pre-commit install
 
 start:
 	@echo "Starting RabbitMQ consumer..."
@@ -47,6 +49,6 @@ clean:
 
 lint:
 	@echo "Running linters..."
-	. .venv/bin/activate
+	. $(VENV_PATH)/bin/activate
 	pre-commit run --all-files
 	@echo "✅ Linting passed"

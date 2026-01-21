@@ -4,7 +4,11 @@ from functools import lru_cache
 
 from common.config import Settings
 from common.logger import get_logger
-from common.rabbitmq_handler import RabbitmqHandler, RabbitmqHeaders
+from common.rabbitmq_handler import (
+    BatchCallbackParams,
+    RabbitmqHandler,
+    RabbitmqHeaders,
+)
 from constants.events import (
     BATCH_SIZE,
     EXCHANGE_NAME,
@@ -24,7 +28,8 @@ settings = get_settings()
 logger = get_logger(__name__)
 
 
-def process_message(message: GreetMessage, headers: RabbitmqHeaders) -> None:
+def process_single_message(message: GreetMessage, headers: RabbitmqHeaders) -> None:
+    """Process a single message - used when batch_size is None or 1"""
     correlation_id = headers.get("correlation-id")
     try:
         logger.info(
@@ -38,6 +43,26 @@ def process_message(message: GreetMessage, headers: RabbitmqHeaders) -> None:
         raise
 
 
+def process_message_batch(batch: list[BatchCallbackParams[GreetMessage]]) -> None:
+    """Process a batch of messages - used when batch_size > 1"""
+    logger.info(f"📦 Processing batch of {len(batch)} messages")
+
+    for item in batch:
+        correlation_id = item.headers.get("correlation-id")
+
+        try:
+            logger.info(
+                f"📨 Processing message: {item.message['message']}",
+                extra={"correlation_id": correlation_id},
+            )
+        except Exception as e:
+            logger.error(
+                f"Error processing message: {e}",
+                extra={"correlation_id": correlation_id},
+            )
+            raise
+
+
 async def main():
     logger.info("Starting RabbitMQ Consumer Application")
     logger.info(
@@ -47,12 +72,21 @@ async def main():
     )
 
     handler = RabbitmqHandler(
-        callback=process_message,
+        callback=process_message_batch,
         exchange_name=EXCHANGE_NAME,
         exchange_type=EXCHANGE_TYPE,
         queue_name=QUEUE_NAME,
         routing_key=ROUTING_KEY,
+        batch_size=BATCH_SIZE,
     )
+
+    # handler = RabbitmqHandler(
+    #     callback=process_single_message,
+    #     exchange_name=EXCHANGE_NAME,
+    #     exchange_type=EXCHANGE_TYPE,
+    #     queue_name=QUEUE_NAME,
+    #     routing_key=ROUTING_KEY,
+    # )
 
     # Setup graceful shutdown
     loop = asyncio.get_event_loop()
