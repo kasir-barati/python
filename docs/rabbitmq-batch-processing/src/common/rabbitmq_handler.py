@@ -61,6 +61,7 @@ class RabbitmqHandler(Generic[TMessage]):
         queue_name: str,
         routing_key: str,
         batch_size: None = None,
+        max_workers: None = None,
     ) -> None: ...
 
     @overload
@@ -72,6 +73,7 @@ class RabbitmqHandler(Generic[TMessage]):
         queue_name: str,
         routing_key: str,
         batch_size: int,
+        max_workers: int,
     ) -> None: ...
 
     def __init__(
@@ -83,12 +85,15 @@ class RabbitmqHandler(Generic[TMessage]):
         queue_name: str,
         routing_key: str,
         batch_size: int | None = None,
+        max_workers: int | None = None,
     ):
         if batch_size is not None and batch_size < 2:
             logger.error(
                 "For single message mode set batch_size to None or skip it entirely"
             )
             raise ValueError("batch_size must be greater than 1")
+        if batch_size is not None and max_workers is None:
+            raise ValueError("max_workers is mandatory param when batch processing")
 
         self.__callback = callback
         self.__exchange_name = exchange_name
@@ -99,7 +104,12 @@ class RabbitmqHandler(Generic[TMessage]):
         self.__connection: AbstractRobustConnection | None = None
         self.__channel: AbstractChannel | None = None
         self.__queue: AbstractQueue | None = None
-        self.__executor = ThreadPoolExecutor(max_workers=settings.rabbitmq.max_workers)
+        self.__executor: ThreadPoolExecutor | None = None
+
+        if batch_size is not None:
+            self.__executor = ThreadPoolExecutor(max_workers=max_workers)
+            logger.debug(f"ThreadPoolExecutor created with {max_workers} workers")
+
         self.__message_batch: List[AbstractIncomingMessage] = []
         self.__batch_lock = asyncio.Lock()
         self.__is_running = False
@@ -148,11 +158,16 @@ class RabbitmqHandler(Generic[TMessage]):
     async def _process_single_message(self, message: AbstractIncomingMessage) -> None:
         logger.debug("Processing single message")
 
-        # Process message in thread pool to avoid blocking the event loop
-        loop = asyncio.get_event_loop()
-        success = await loop.run_in_executor(
-            self.__executor, self._process_single_message_sync, message
-        )
+        # Process message with or without thread pool based on configuration
+        if self.__executor is not None:
+            # Use thread pool to avoid blocking the event loop
+            loop = asyncio.get_event_loop()
+            success = await loop.run_in_executor(
+                self.__executor, self._process_single_message_sync, message
+            )
+        else:
+            # Process directly (no thread pool overhead for simple callbacks)
+            success = self._process_single_message_sync(message)
 
         try:
             if success:
@@ -321,9 +336,10 @@ class RabbitmqHandler(Generic[TMessage]):
                     await self.process_batch(self.__message_batch)
                     self.__message_batch.clear()
 
-        # Shutdown thread pool
-        self.__executor.shutdown(wait=True)
-        logger.info("Thread pool executor shut down")
+        # Shutdown thread pool if it exists
+        if self.__executor is not None:
+            self.__executor.shutdown(wait=True)
+            logger.info("Thread pool executor shut down")
 
         # Close RabbitMQ connection
         if self.__connection:

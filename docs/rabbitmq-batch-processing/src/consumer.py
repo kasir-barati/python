@@ -78,6 +78,7 @@ async def main():
         queue_name=QUEUE_NAME,
         routing_key=ROUTING_KEY,
         batch_size=BATCH_SIZE,
+        max_workers=settings.rabbitmq.max_workers,
     )
 
     # handler = RabbitmqHandler(
