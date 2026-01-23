@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from functools import lru_cache
 from typing import Any, Callable, Generic, List, TypedDict, TypeVar, cast, overload
 
-from aio_pika import ExchangeType, connect_robust
+from aio_pika import connect_robust
 from aio_pika.abc import (
     AbstractChannel,
     AbstractIncomingMessage,
@@ -131,7 +131,7 @@ class RabbitmqHandler(Generic[TMessage]):
 
             # Declare exchange
             exchange = await self.__channel.declare_exchange(
-                name=self.__exchange_name, type=ExchangeType.TOPIC, durable=True
+                name=self.__exchange_name, type=self.__exchange_type, durable=True
             )
             logger.info(
                 f"Declared exchange: {self.__exchange_name} (type: {self.__exchange_type})"
