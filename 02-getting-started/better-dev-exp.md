@@ -1,8 +1,10 @@
 # Better dev exp
 
-Here we will learn about function annotations, docstrings, and formatting styles.
+Here we will learn about type annotations, docstrings, and formatting styles.
 
-## Function Annotation
+## Type Annotations
+
+### Function Annotation
 
 - In Python 3 we can specify the type of our arguments and what our function returns.
 - They're optional metadata info.
@@ -41,6 +43,69 @@ def place_order(
 > ```
 >
 > **What is important is to keep in mind that this is the new preferred way of type annotating stuff.**
+
+### Future `import` Statement
+
+- Type annotations are evaluated at runtime when the class/function is defined.
+- This can cause `NameError` if you reference a class that hasn't been defined yet (forward references).
+- Example: If class `FileUploader` has a method that returns `FileUploader`, you'd need to use quotes: `def some_method() -> "FileUploader"`.
+
+<table><thead><tr><th>Without <code>from __future__ import annotations</code></th><th>With <code>from __future__ import annotations</code></th></tr></thead><tbody><tr><td>
+
+```py
+class FileUploader:
+    def some_method(self) -> FileUploader:
+        return self
+
+if __name__ == "__main__":
+    uploader = FileUploader()
+    result = uploader.some_method()
+    print(result)
+```
+
+</td><td>
+
+```py
+from __future__ import annotations
+
+class FileUploader:
+    def some_method(self) -> FileUploader:
+        return self
+
+if __name__ == "__main__":
+    uploader = FileUploader()
+    result = uploader.some_method()
+    print(result)
+```
+
+</td></tr><tr><td>
+
+```
+Traceback (most recent call last):
+  File "/tmp/a.py", line 1, in <module>
+    class FileUploader:
+        def some_method(self) -> FileUploader:
+            return self
+  File "/tmp/a.py", line 2, in FileUploader
+    def some_method(self) -> FileUploader:
+                             ^^^^^^^^^^^^
+NameError: name 'FileUploader' is not defined
+```
+
+</td><td>
+
+Works just fine because:
+
+- Type annotations are stored as strings and NOT evaluated at runtime.
+- They're only evaluated when needed (e.g., by type checkers like mypy or IDEs).
+- We can use forward references without quotes.
+- Reduces runtime overhead since annotations aren't evaluated
+- Allows you to write cleaner type hints: `def method() -> InspectionDataUploader:` (no quotes needed)
+
+</td></tr>
+
+</tbody></table>
+
 
 ## Docstring
 

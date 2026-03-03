@@ -358,6 +358,13 @@ def test_get_as_base64_with_uri(mock_get: MagicMock):
 
 bundling together a few named data items. The idiomatic approach is to use dataclasses for this purpose:
 
+- Reduces boilerplate code.
+- Automatically generates common special methods:
+  - `__init__`.
+  - `__repr__`.
+  - `__eq__`.
+
+
 ```py
 from dataclasses import dataclass
 
