@@ -7,8 +7,8 @@ from multiprocessing import Queue
 class YamlPipelineExecutor():
     def __init__(self, pipeline_location: str):
         self._pipeline_location = pipeline_location
-        self._queues={}
-        self._workers={}
+        self._queues: dict[str, Queue] = {}
+        self._workers: dict[str, list] = {}
 
     def _load_pipeline(self):
         with open(self._pipeline_location,'r') as in_file:
@@ -16,20 +16,20 @@ class YamlPipelineExecutor():
 
     def _initialize_queues(self):
         for queue in self._yaml_data['queues']:
-            queue_name=queue['name']
-            self._queues[queue_name]=Queue()
+            queue_name: str = queue['name']
+            self._queues[queue_name] = Queue()
 
     def _initialize_workers(self):
         for worker in self._yaml_data['workers']:
             WorkerClass = getattr(importlib.import_module(worker['location']),worker['class'])
-            input_queue = worker.get('input_queue')
-            output_queues = worker.get('output_queues')
-            input_values = worker.get('input_values')
-            worker_name = worker.get('name')
-            number_of_instances = worker.get('instances', 1)
+            input_queue: str = worker.get('input_queue')
+            output_queues: list[str] = worker.get('output_queues')
+            input_values: list[str] = worker.get('input_values')
+            worker_name: str = worker.get('name')
+            number_of_instances: int = worker.get('instances', 1)
 
             # Making sure we are NOT adding kwargs which was NOT specified in the yaml file
-            init_params = {}
+            init_params: dict[str] = {}
             if input_queue is not None:
                 init_params['input_queue'] = self._queues[input_queue]
             if output_queues is not None:
