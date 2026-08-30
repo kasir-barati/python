@@ -54,3 +54,9 @@ Thread(target=worker, args=("abc",))
 > If you need to wait for the threads to finish their tasks and after that you wanna continue you need to use the `thread.join()` method.
 
 - [Example](./examples/multithreading.py).
+
+## The Pipeline Design Pattern
+
+So I have implemented a complete pipeline using threads in python and honestly it looks fantastic. You can find the post I wrote about it here: https://dev.to/kasir-barati/the-pipeline-pattern-15j5
+
+And [this example](./examples/scrapper-pipeline-design-pattern/) is pushing it to the next level.

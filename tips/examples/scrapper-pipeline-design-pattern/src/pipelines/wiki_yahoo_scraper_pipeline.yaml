@@ -1,0 +1,30 @@
+queues:
+  - name: SymbolQueue
+    description: Contains symbols/tickers to be scraped from Yahoo
+  - name: PostgresUploading
+    description: Contains data that needs to be uploaded to Postgres
+
+workers:
+  - name: WikiWorker
+    description: This scraps Wikipedia page nad extracts symbols/tickets
+    location: workers.wiki
+    class: WikiWorkerMasterScheduler
+    instances: 1
+    input_values:
+      - https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
+    output_queues:
+      - SymbolQueue
+  - name: YahooFinanceWorker
+    description: Pulls the stock price of a given ticket from Yahoo Finance
+    location: workers.yahoo_finance_price
+    class: YahooFinancePriceScheduler
+    instances: 4
+    input_queue: SymbolQueue
+    output_queues:
+      - PostgresUploading
+  - name: PostgresWorker
+    description: Stores stock data in Postgres
+    location: workers.postgres
+    class: PostgresMasterScheduler
+    instances: 4
+    input_queue: PostgresUploading

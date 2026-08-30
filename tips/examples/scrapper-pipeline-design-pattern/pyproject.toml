@@ -1,0 +1,17 @@
+[project]
+name = "wiki-yahoo-scraper"
+version = "0.1.0"
+description = "Pipes-and-filters scraper: S&P 500 tickers -> Yahoo Finance prices -> Postgres"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.12",
+    "lxml>=5.3",
+    "psycopg2-binary>=2.9",
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0",
+    "requests>=2.32",
+    "sqlalchemy>=2.0",
+]
+
+[tool.uv]
+package = false

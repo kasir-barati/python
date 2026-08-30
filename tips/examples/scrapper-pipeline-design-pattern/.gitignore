@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# uv
+# uv.lock IS committed
+# .python-version IS committed
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checkers
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env files (real secrets)
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OpenTelemetry / logs / local artefacts
+*.log
+logs/
+
+# Eval harness per-run reports (baselines ARE committed)
+src/modules/*/evals/report.json
+
+# Local scratch
+tmp/
+scratch/
+
+# Release tooling only
+node_modules/
+.spectaql-deps/
