@@ -1,0 +1,25 @@
+[project]
+name = "rabbitmq-worker-service"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "strawberry-graphql[cli]>=0.243",
+  "starlette>=0.37",
+  "uvicorn>=0.30",
+  "pika>=1.3",
+  "redis>=5.0",
+  "shared-db",
+]
+
+# shared-db is the shared internal library used by api & worker.
+[tool.uv.sources]
+shared-db = { path = "shared", editable = true }
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0",
+  "testcontainers>=4.6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

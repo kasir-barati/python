@@ -1,0 +1,13 @@
+type Query {
+  health: String!
+  users: [UserType!]!
+}
+
+type Subscription {
+  queueMessages: String!
+}
+
+type UserType {
+  id: Int!
+  email: String!
+}
