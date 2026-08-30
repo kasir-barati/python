@@ -1,6 +1,13 @@
 # Summary of the Example
 
-I wrote about this and explain this here: dev.to post link
+I wrote about this and explain this here: https://dev.to/kasir-barati/rabbitmq-consumer-as-a-separate-worker-service-adc
+
+And in `tests/test_worker_integration.py` I am using `testcontainers` to boot real RabbitMQ, Redis, and Postgres containers and check two things:
+
+1. **Happy path.** A published email is consumed, upserted into `users` via `UserRepository`, echoed to Redis, and acked (queue drained, not left pending).
+2. **Crash recovery, without data corruption.** A worker that writes the user row and publishes to Redis, then crashes *before* acking, is simulated by killing its connection mid-flight. A second, independent `Worker` instance, standing in for a restarted replica, still receives the redelivered message and reprocesses it, and the test asserts there is still exactly **one** `users` row for that email, not two. That's `get_or_create`'s idempotency doing its job: at-least-once delivery plus an idempotent handler equals correct behavior even after a crash, entirely without the API process being restarted or even aware anything happened.
+
+Durability of "the message survives a crash" comes from RabbitMQ fundamentals (a durable queue, a persistent message, manual ack); the "and it doesn't become a duplicate" half comes from the shared repository. The tests exist to prove the worker doesn't accidentally break either guarantee, not to re-test RabbitMQ or Postgres themselves.
 
 ## [GraphQL API](./api/schema.graphql)
 
