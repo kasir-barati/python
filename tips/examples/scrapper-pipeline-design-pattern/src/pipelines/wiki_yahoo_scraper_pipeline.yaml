@@ -5,6 +5,14 @@ queues:
     description: Contains data that needs to be uploaded to Postgres
 
 workers:
+  # - name: SymbolUnifier
+  #   description: This will scrap the symbols from all sources, unifies them (deduplicate), and then dump them into the output queue
+  #   input_values:
+  #     - https://some.com/whatever
+  #     - https://einige.de/was-auch-immer
+  #   output_queues:
+  #     - UnifiedSymbols
+
   - name: WikiWorker
     description: This scraps Wikipedia page nad extracts symbols/tickets
     location: workers.wiki
@@ -12,6 +20,9 @@ workers:
     instances: 1
     # FIXME: currently if we add another source which is similar to the following link
     # We might re-scrap the same ticket twice. For this you can actually store the URL alongside the scrapped data in DB
+    # Or you can add a stage before this stage which guarantees the uniqueness of values. Look at SymbolUnifier
+    # But then you need to read data from input_queue and not input_values
+    # input_queue: UnifiedSymbols
     input_values:
       - https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
     output_queues:
