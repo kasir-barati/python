@@ -10,6 +10,8 @@ workers:
     location: workers.wiki
     class: WikiWorkerMasterScheduler
     instances: 1
+    # FIXME: currently if we add another source which is similar to the following link
+    # We might re-scrap the same ticket twice. For this you can actually store the URL alongside the scrapped data in DB
     input_values:
       - https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
     output_queues:
