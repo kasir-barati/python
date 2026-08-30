@@ -8,12 +8,12 @@ dependencies = [
   "uvicorn>=0.30",
   "pika>=1.3",
   "redis>=5.0",
-  "shared-db",
+  "shared",
 ]
 
-# shared-db is the shared internal library used by api & worker.
+# shared is the shared internal library used by api & worker.
 [tool.uv.sources]
-shared-db = { path = "shared", editable = true }
+shared = { path = "shared", editable = true }
 
 [dependency-groups]
 dev = [

@@ -97,3 +97,20 @@ So when we commit first the database transaction, we are making the database the
 
 - The users table is the authoritative record of which emails exist.
 - ["At‑least‑once" delivery](https://www.systemoverflow.com/learn/design-fundamentals/communication-patterns/idempotency-at-least-once-delivery-and-the-outbox-inbox-pattern): This guarantees **eventual delivery** of the Redis notification without any data loss.
+
+## [Shared Library](./shared)
+
+`shared` is a real installable Python package (its own `pyproject.toml`, built with hatchling). The root `pyproject.toml` depends on it as a local path dependency:
+
+```toml
+[tool.uv.sources]
+shared = { path = "shared", editable = true }
+```
+
+This is one source of truth for the `users` table and its `UserRepository`, versioned and deployed together with whichever service imports it, instead of drifting apart in two copies. In a repo split into `api-repo` and `worker-repo` instead, `shared` would be its own versioned package (private PyPI index, git dependency, whatever your org uses) rather than a local path — same principle, just resolved across repositories instead of across directories. Although honestly I would NOT recommend it since it would just makes the maintenance a ton harder. So if possible go for a monorepo.
+
+See [`shared/README.md`](./shared/README.md) for how the package itself is laid out (`db/`, per-entity subpackages like `db/user/`, and why).
+
+What `shared` alone doesn't solve is migrations, so this example wires up [Alembic](https://alembic.sqlalchemy.org/en/latest/tutorial.html) too, under [`shared/migrations`](./shared/migrations): `shared.db` owns the models and therefore the migration scripts, but only the API's deploy step runs them (`make db-migrate`, also baked into [`api/Dockerfile`](./api/Dockerfile)'s `CMD` ahead of `uvicorn`). Neither service calls `create_all` at startup anymore — see the comment in [`shared/db/engine.py`](./shared/src/shared/db/engine.py) — because two independently-deployed services racing to create/alter the same table is exactly the failure mode migrations exist to prevent.
+
+That still leaves the real constraint on you as the schema author, not on any tooling here: because `api` and `worker` deploy independently, a schema change needs to be backward-compatible for the window where an old and a new version of either service might be running against the same database at once. Practically that means expand/contract instead of drop-and-recreate — e.g. add a new nullable column in one migration/release, backfill and dual-write from both old and new code paths, then only drop the old column in a later release once every replica has rolled forward.

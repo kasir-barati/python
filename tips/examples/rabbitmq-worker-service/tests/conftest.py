@@ -1,12 +1,17 @@
 import time
 import uuid
 from collections.abc import Iterator
+from pathlib import Path
 
 import pytest
+from alembic import command
+from alembic.config import Config
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from testcontainers.core.container import DockerContainer
 from testcontainers.core.wait_strategies import LogMessageWaitStrategy
+
+_ALEMBIC_INI = Path(__file__).resolve().parents[1] / "shared" / "alembic.ini"
 
 
 @pytest.fixture(scope="session")
@@ -47,6 +52,12 @@ def _wait_for_postgres(url: str, timeout: float = 30.0) -> None:
     raise TimeoutError(f"postgres not ready in time: {last_error}")
 
 
+def _migrate(url: str) -> None:
+    config = Config(str(_ALEMBIC_INI))
+    config.set_main_option("sqlalchemy.url", url)
+    command.upgrade(config, "head")
+
+
 @pytest.fixture(scope="session")
 def postgres_url() -> Iterator[str]:
     container = DockerContainer("postgres:16-alpine")
@@ -58,6 +69,7 @@ def postgres_url() -> Iterator[str]:
         port = container.get_exposed_port(5432)
         url = f"postgresql+psycopg://postgres:postgres@{host}:{port}/app"
         _wait_for_postgres(url)
+        _migrate(url)
         yield url
 
 

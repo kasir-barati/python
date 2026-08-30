@@ -3,8 +3,8 @@ from collections.abc import AsyncGenerator
 
 import redis.asyncio as aioredis
 import strawberry
-from shared_db.db import create_db_engine, create_session_factory, init_db
-from shared_db.repository import UserRepository
+from shared.db.engine import create_db_engine, create_session_factory
+from shared.db.user.repository import UserRepository
 
 
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
@@ -14,8 +14,7 @@ DATABASE_URL = os.environ.get(
 )
 _engine = create_db_engine(DATABASE_URL)
 
-init_db(_engine)
-
+# ⚠️ Schema migrations run as a deploy step before this process starts.
 SessionFactory = create_session_factory(_engine)
 
 

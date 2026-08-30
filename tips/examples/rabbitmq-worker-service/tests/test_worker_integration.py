@@ -1,10 +1,3 @@
-# tests/test_worker_integration.py
-#
-# Integration tests against real RabbitMQ, Redis, and Postgres containers
-# (via testcontainers), proving two things: a worker crash costs at most a
-# redelivery, never a lost or duplicated `users` row; and that guarantee
-# holds using the exact same `shared_db` models/repository the API queries
-# through, not a test-only stand-in.
 import threading
 import time
 import uuid
@@ -14,8 +7,8 @@ from contextlib import contextmanager
 import pika
 import pytest
 import redis
-from shared_db.db import create_db_engine, create_session_factory
-from shared_db.repository import UserRepository
+from shared.db.engine import create_db_engine, create_session_factory
+from shared.db.user.repository import UserRepository
 
 from worker.src.consumer import REDIS_CHANNEL, Worker
 

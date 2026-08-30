@@ -7,8 +7,8 @@ import pika
 import redis
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
-from shared_db.db import create_db_engine, create_session_factory, init_db
-from shared_db.repository import UserRepository
+from shared.db.engine import create_db_engine, create_session_factory
+from shared.db.user.repository import UserRepository
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s worker: %(message)s")
 logger = logging.getLogger("worker")
@@ -38,8 +38,8 @@ class Worker:
         self._channel: BlockingChannel | None = None
         self._should_run = True
 
+        # Schema is migrated by the API's deploy step to prevent running the same migration twice
         engine = create_db_engine(database_url)
-        init_db(engine)
         self._session_factory = create_session_factory(engine)
 
     def connect(self) -> None:
