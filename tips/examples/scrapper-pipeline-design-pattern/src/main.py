@@ -13,6 +13,7 @@ def main() -> None:
     pipeline_location = Path(__file__).parent / 'pipelines' / 'wiki_yahoo_scraper_pipeline.yaml'
     yaml_pipeline_executor = YamlPipelineExecutor(pipeline_location=pipeline_location)
     yaml_pipeline_executor.start()
+    yaml_pipeline_executor.join()
     
     elapsed = time.time() - scraper_start_time
 
