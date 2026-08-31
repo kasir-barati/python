@@ -47,8 +47,6 @@ class YahooFinancePriceScheduler(threading.Thread):
                 break
 
             if val == "DONE":
-                for output_queue in self._output_queues:
-                    output_queue.put("DONE")
                 break
 
             worker = YahooFinancePriceWorker(symbol=val)
