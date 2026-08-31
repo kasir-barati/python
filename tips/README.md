@@ -7,4 +7,5 @@
 - [Strongly typed python codebase](./strongly-typed-python-code.md).
 - [Multiprocessing](./multiprocessing.md).
 - [Multithreading](./multithreading.md).
+- [`asyncio`](./asyncio.md).
 - [Testing](./testing.md).
