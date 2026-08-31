@@ -47,6 +47,14 @@ class PostgresMasterScheduler(threading.Thread):
 class PostgresWorker:
     """Inserts a single price observation into the `prices` table."""
 
+    _create_table_lock = threading.Lock()
+    """
+    Needed for when we have multiple threads trying to create the table.
+    Note: the IF NOT EXISTS check isn't atomic for the implicit SERIAL sequence,
+    so when several threads hit it concurrently on first run,
+    they all try to create prices_id_seq and one loses with UniqueViolation. 
+    """
+
     def __init__(self, symbol: Symbol, price: Price, extracted_time: str) -> None:
         self._symbol = symbol
         self._price = price
@@ -71,7 +79,7 @@ class PostgresWorker:
                 insert_time  TIMESTAMPTZ
             )
         """
-        with self._engine.connect() as conn:
+        with self._create_table_lock, self._engine.connect() as conn:
             conn.execute(text(create_table_query))
             conn.commit()
 
