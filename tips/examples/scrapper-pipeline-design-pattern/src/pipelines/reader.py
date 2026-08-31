@@ -1,5 +1,6 @@
 import importlib
 import threading
+import time
 
 import yaml
 from multiprocessing import Queue
@@ -69,16 +70,20 @@ class YamlPipelineExecutor(threading.Thread):
                         total_worker_threads_alive += 1
 
                 total_workers_alive += total_worker_threads_alive
+                print(f"{worker_name} has {total_worker_threads_alive} active threads")
+
                 if total_worker_threads_alive == 0:
                     if self._downstream_queues[worker_name] is not None:
                         for output_queue in self._downstream_queues[worker_name]:
-                            number_of_consumers = self._queue_consumers[output_queue]
+                            number_of_consumers = self._queue_consumers.get(output_queue, 0)
+
+                            if number_of_consumers == 0:
+                                print(f"Investigate why {output_queue} has no consumer, is this a bug or intentional behavior?")
+
                             for i in range(number_of_consumers):
                                 self._queues[output_queue].put("DONE")
 
                     delete_these_workers.append(worker_name)
-
-            print(f"{worker_name} has {total_worker_threads_alive} active threads")
 
             for queue_name in self._queues:
                 print(f"{queue_name} has {self._queues[queue_name].qsize()} messages in it")
@@ -88,3 +93,5 @@ class YamlPipelineExecutor(threading.Thread):
 
             if total_workers_alive == 0:
                 break
+
+            time.sleep(0.1)
