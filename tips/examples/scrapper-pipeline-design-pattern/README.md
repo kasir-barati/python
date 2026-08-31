@@ -70,6 +70,80 @@ flowchart LR
 
 In `direct` mode each item goes to exactly one stage instance, chosen by whichever instance happens to `get()` it first. In `fanout` mode every subscribing *stage* gets its own copy of every item; only the choice of *which instance within that stage* handles it is round-robin.
 
+## Combining modes in one pipeline
+
+A single pipeline can mix both: fan out to several skills, then chain some of those skills serially. `mode` is set per queue, so each queue in the pipeline picks whichever fits its own consumers.
+
+```mermaid
+flowchart LR
+    Producer -->|PostProcessing<br/>mode: fanout| MarketSentimentSkill
+    Producer -->|PostProcessing<br/>mode: fanout| ExplainabilitySkill
+
+    subgraph MarketSentimentSkill["MarketSentimentSkill (2 instances)"]
+        MS1[instance 1]
+        MS2[instance 2]
+    end
+    subgraph ExplainabilitySkill["ExplainabilitySkill (1 instance)"]
+        E1[instance 1]
+    end
+    subgraph StrategyGeneratorSkill["StrategyGeneratorSkill (2 instances)"]
+        SG1[instance 1]
+        SG2[instance 2]
+    end
+
+    MS1 & MS2 -->|SentimentQueue<br/>mode: direct| SG1 & SG2
+    SG1 & SG2 -->|TradingStrategyQueue<br/>mode: direct| NotificationService
+```
+
+```yaml
+queues:
+  - name: PostProcessing
+    description: Symbols to analyze, broadcast to every downstream skill
+    mode: fanout
+  - name: SentimentQueue
+    description: Market sentiment results, feeds strategy generation
+  - name: TradingStrategyQueue
+    description: Generated trading strategies, feeds notifications
+
+workers:
+  - name: Producer
+    location: workers.producer
+    class: ProducerScheduler
+    instances: 1
+    output_queues:
+      - PostProcessing
+
+  - name: MarketSentimentSkill
+    location: workers.market_sentiment
+    class: MarketSentimentScheduler
+    instances: 2
+    input_queue: PostProcessing
+    output_queues:
+      - SentimentQueue
+
+  - name: ExplainabilitySkill
+    location: workers.explainability
+    class: ExplainabilityScheduler
+    instances: 1
+    input_queue: PostProcessing
+
+  - name: StrategyGeneratorSkill
+    location: workers.strategy_generator
+    class: StrategyGeneratorScheduler
+    instances: 2
+    input_queue: SentimentQueue
+    output_queues:
+      - TradingStrategyQueue
+
+  - name: NotificationService
+    location: workers.notification
+    class: NotificationScheduler
+    instances: 1
+    input_queue: TradingStrategyQueue
+```
+
+`PostProcessing` needs `mode: fanout` since two stages (`MarketSentimentSkill`, `ExplainabilitySkill`) both declare it as `input_queue`. `SentimentQueue` and `TradingStrategyQueue` stay `direct` (the default) since each has exactly one subscribing stage — that stage's `instances` still compete round-robin for items, same as `WikiWorker` -> `SymbolQueue` above. No YAML reader changes are needed for this; `mode` is already read per-queue.
+
 ## Poison-pill (DONE) propagation
 
 The hard part: a producer stage doesn't know how many consumer *threads* are reading its output queue, so it can't hardcode how many `"DONE"` sentinels to send. `YamlPipelineExecutor.run()` solves this centrally instead of leaving it to each worker file.
