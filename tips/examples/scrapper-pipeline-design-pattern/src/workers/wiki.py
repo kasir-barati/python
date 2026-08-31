@@ -22,13 +22,17 @@ class WikiWorkerMasterScheduler(threading.Thread):
     def run(self):
         for input_value in self._input_values:
             wiki_worker = WikiWorker(input_value)
+            # 👇 if you want a quick and dirty test UNCOMMENT ME
+            # temp_count_for_testing = 0
             for symbol in wiki_worker.get_sp_500_companies():
+                # 👇 if you want a quick and dirty test UNCOMMENT ME
+                # temp_count_for_testing += 1
                 for output_queue in self._output_queues:
                     output_queue.put(symbol)
-                # break  # 👈 if you want a quick and dirty test UNCOMMENT ME
 
-        for output_queue in self._output_queues:
-            output_queue.put("DONE")
+                # 👇 if you want a quick and dirty test UNCOMMENT ME
+                # if temp_count_for_testing == 5:
+                #     break
 
 class WikiWorker:
     """Fetches and parses the S&P 500 constituents table from Wikipedia."""
