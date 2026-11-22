@@ -71,3 +71,8 @@ def build_after(choice: Choice) -> str:
 - Why "before" fails: matching on `settings.provider == "bedrock"` tells the checker nothing about `settings.bedrock`. The string and the optional field are unrelated, so every use needs an assert or a cast.
 - Why "after" works: the class is the discriminator. `case Bedrock(region=region)` narrows the type and binds the required field in one step.
 - Mismatch with the real code: `Choice` here is a plain union. The repo's `build_model` takes the open base class `ModelChoice`, which is why it ended up with `case _`.
+
+---
+
+X: https://x.com/kasir_barati/status/2124544882291151179
+Instagram: https://www.instagram.com/p/DgDPsZKtPFY/?avpt=NTc4MTIwNjQ2YQ==
