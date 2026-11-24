@@ -1,0 +1,25 @@
+# Runs the one-shot WikiWorker stage on a schedule, mirroring the Compose `wiki-worker` service
+# (restart: no) but repeatable instead of one-time.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wiki-worker
+spec:
+  schedule: "0 6 * * *" # daily at 06:00 UTC; adjust to how often the ticker list should refresh
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: wiki-worker
+              image: your-registry/wiki-yahoo-scraper-rabbitmq:latest
+              command: ["uv", "run", "python", "-m", "run_worker"]
+              env:
+                - name: WORKER_NAME
+                  value: WikiWorker
+              envFrom:
+                - secretRef:
+                    name: pipeline-config

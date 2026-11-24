@@ -1,0 +1,20 @@
+# Scales the postgres-worker Deployment on PostgresUploading depth, including to zero when empty.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: postgres-worker
+spec:
+  scaleTargetRef:
+    name: postgres-worker
+  minReplicaCount: 0
+  maxReplicaCount: 4 # kept in sync with PostgresWorker's `instances` by tools/render_k8s.py
+  cooldownPeriod: 30 # seconds the queue must stay empty before scaling back to 0
+  pollingInterval: 15
+  triggers:
+    - type: rabbitmq
+      metadata:
+        queueName: PostgresUploading
+        mode: QueueLength
+        value: "5" # target messages per replica
+      authenticationRef:
+        name: rabbitmq-trigger-auth

@@ -1,0 +1,27 @@
+# Mirrors the Compose `postgres-worker` service, minus the fixed replica count — KEDA's
+# ScaledObject (postgres-worker-scaledobject.yaml) owns replicas once applied.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-worker
+spec:
+  replicas: 0 # resting state; KEDA scales this up/down based on PostgresUploading depth
+  selector:
+    matchLabels:
+      app: postgres-worker
+  template:
+    metadata:
+      labels:
+        app: postgres-worker
+    spec:
+      terminationGracePeriodSeconds: 30 # let an in-flight message finish before SIGKILL
+      containers:
+        - name: postgres-worker
+          image: your-registry/wiki-yahoo-scraper-rabbitmq:latest
+          command: ["uv", "run", "python", "-m", "run_worker"]
+          env:
+            - name: WORKER_NAME
+              value: PostgresWorker
+          envFrom:
+            - secretRef:
+                name: pipeline-config

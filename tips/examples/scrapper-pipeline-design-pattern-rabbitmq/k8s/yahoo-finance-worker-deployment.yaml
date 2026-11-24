@@ -1,0 +1,27 @@
+# Mirrors the Compose `yahoo-finance-worker` service, minus the fixed replica count — KEDA's
+# ScaledObject (yahoo-finance-worker-scaledobject.yaml) owns replicas once applied.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yahoo-finance-worker
+spec:
+  replicas: 0 # resting state; KEDA scales this up/down based on SymbolQueue depth
+  selector:
+    matchLabels:
+      app: yahoo-finance-worker
+  template:
+    metadata:
+      labels:
+        app: yahoo-finance-worker
+    spec:
+      terminationGracePeriodSeconds: 30 # let an in-flight message finish before SIGKILL
+      containers:
+        - name: yahoo-finance-worker
+          image: your-registry/wiki-yahoo-scraper-rabbitmq:latest
+          command: ["uv", "run", "python", "-m", "run_worker"]
+          env:
+            - name: WORKER_NAME
+              value: YahooFinanceWorker
+          envFrom:
+            - secretRef:
+                name: pipeline-config

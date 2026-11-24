@@ -1,0 +1,10 @@
+# Lets KEDA's RabbitMQ scaler authenticate to query queue depth for the ScaledObjects below.
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: rabbitmq-trigger-auth
+spec:
+  secretTargetRef:
+    - parameter: host
+      name: pipeline-config
+      key: RABBITMQ_URL
