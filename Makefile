@@ -12,8 +12,9 @@ help:
 	@awk '/^## /{desc = substr($$0, 4)} /^[a-zA-Z_-]+:/{if (desc) {target = $$1; sub(/:.*/, "", target); printf "  make %-20s- %s\n", target, desc; desc = ""}}' $(MAKEFILE_LIST)
 	@echo ""
 
-## Regenerates index.md from all markdown files so GH Pages shows always up to date content
+## Regenerates index.md and the sidebar (_includes/nav_tree.html) from all markdown files so GH Pages always shows up to date content
 update_index:
+	@python3 scripts/gen_nav.py
 	@{
 		echo "# Content"
 		for f in $$(git ls-files --cached --others --exclude-standard -- '*.md' \

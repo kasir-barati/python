@@ -12,9 +12,23 @@ plugins:
 relative_links:
   enabled: true
   collections: true
-remote_theme: pages-themes/hacker@v0.2.0
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+color_scheme: dark
+search_enabled: true
+heading_anchors: true
+# The sidebar is generated from the directory tree (scripts/gen_nav.py, see
+# _includes/components/site_nav.html), so no markdown file needs front matter.
+aux_links:
+  GitHub:
+    - https://github.com/kasir-barati/python
+defaults:
+  - scope: { path: "" }
+    values: { layout: default }
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
 include:
   - .github
+exclude:
+  - scripts
+  - Makefile

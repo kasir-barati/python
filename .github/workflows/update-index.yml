@@ -7,6 +7,7 @@ on:
       - '**/*.md'
       - '!index.md'
       - 'Makefile'
+      - 'scripts/gen_nav.py'
   workflow_dispatch:
 
 permissions:
@@ -23,12 +24,12 @@ jobs:
 
       - name: Commit changes
         run: |
-          if git diff --quiet -- index.md; then
-            echo "index.md is up to date"
+          if [ -z "$(git status --porcelain -- index.md _includes/nav_tree.html)" ]; then
+            echo "index.md and nav are up to date"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.md
+          git add index.md _includes/nav_tree.html
           git commit -m "chore: update index.md"
           git push

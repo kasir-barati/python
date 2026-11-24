@@ -1,0 +1,10 @@
+{%- comment -%}
+  Overrides just-the-docs' components/site_nav.html. The sidebar is generated from
+  the directory tree by scripts/gen_nav.py (see Makefile `update_index`), so no markdown
+  file needs front matter. The generated file is wrapped in raw so titles can never be
+  interpreted as Liquid; @@BASE@@ is replaced with the site's baseurl here.
+{%- endcomment -%}
+<nav aria-label="Main" id="site-nav" class="site-nav">
+  {%- capture nav_tree %}{% include nav_tree.html %}{% endcapture -%}
+  {{ nav_tree | replace: "@@BASE@@", site.baseurl }}
+</nav>
