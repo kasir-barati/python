@@ -140,6 +140,10 @@
     - [Summary of the Example](./tips/examples/rabbitmq-worker-service/README.md)
     - shared
       - [Shared Library Layout](./tips/examples/rabbitmq-worker-service/shared/README.md)
+  - scrapper-pipeline-design-pattern-rabbitmq
+    - [Scraper Pipeline over RabbitMQ](./tips/examples/scrapper-pipeline-design-pattern-rabbitmq/README.md)
+    - k8s
+      - [Kubernetes + KEDA reference manifests](./tips/examples/scrapper-pipeline-design-pattern-rabbitmq/k8s/README.md)
   - scrapper-pipeline-design-pattern
     - [Scraper Pipeline](./tips/examples/scrapper-pipeline-design-pattern/README.md)
 - [Multiprocessing](./tips/multiprocessing.md)
